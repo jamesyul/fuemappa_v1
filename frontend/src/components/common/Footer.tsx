@@ -2,13 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaLinkedin, FaTwitter, FaInstagram } from 'react-icons/fa';
 
-// Declaración de tipos para react-icons (si no existe, créalo en src/types/react-icons.d.ts)
-declare module 'react-icons/fa' {
-  export const FaLinkedin: React.FC<React.SVGProps<SVGSVGElement> & { size?: number | string }>;
-  export const FaTwitter: React.FC<React.SVGProps<SVGSVGElement> & { size?: number | string }>;
-  export const FaInstagram: React.FC<React.SVGProps<SVGSVGElement> & { size?: number | string }>;
-}
-
 const Footer: React.FC = () => {
   return (
     <footer className="bg-gray-900 text-gray-300 py-8">

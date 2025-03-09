@@ -68,7 +68,7 @@ const SearchBar: React.FC = () => {
 
   const handleSubmitInitial = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && initialInput) {
-      const exactMatch = pieces.find(piece => piece.name.toLowerCase() === initialInput.toLowerCase());
+      const exactMatch = pieces.find((piece: Piece) => piece.name.toLowerCase() === initialInput.toLowerCase());
       if (exactMatch) {
         setResults([exactMatch]);
         setStep('results');
@@ -110,7 +110,7 @@ const SearchBar: React.FC = () => {
   };
 
   const filterPieces = () => {
-    const filtered = pieces.filter(piece => {
+    const filtered = pieces.filter((piece: Piece) => {
       const matchesSystem = !filters.system || piece.departmentId === (filters.system === 'CH/AE' ? 'AE' : filters.system);
       const matchesSubsystem = !filters.subsystem || piece.code.startsWith(filters.subsystem.split('-')[0]);
       const matchesLocation = !filters.location || piece.name.toLowerCase().includes(filters.location.toLowerCase().includes('front') ? 'front' : filters.location.toLowerCase());

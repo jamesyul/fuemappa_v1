@@ -1,0 +1,27 @@
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import Pieces from './pages/Pieces';
+import Departments from './pages/Departments';
+import Navbar from './components/common/Navbar'; // Opcional: para navegación
+
+const App: React.FC = () => {
+  return (
+    <div>
+      <Navbar /> {/* Opcional: Navbar común en todas las páginas */}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/pieces" element={<Pieces />} />
+        <Route path="/departments" element={<Departments />} />
+        {/* Ruta 404 opcional */}
+        <Route path="*" element={<h1>404 - Página no encontrada</h1>} />
+      </Routes>
+    </div>
+  );
+};
+
+export default App;

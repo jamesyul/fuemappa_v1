@@ -74,7 +74,7 @@ const Departments: React.FC = () => {
                 </td>
               </tr>
             ) : (
-              departments.map((dept) => (
+              departments.map((dept: Department) => (
                 <tr key={dept.id} className="border-t border-gray-200 hover:bg-gray-50">
                   <td className="py-3 px-4 text-sm text-gray-700">{dept.name}</td>
                   <td className="py-3 px-4 text-sm text-gray-700">{dept.description}</td>

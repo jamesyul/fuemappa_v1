@@ -81,7 +81,7 @@ const Pieces: React.FC = () => {
     if (!editPiece.code || !editPiece.name || !editPiece.departmentId || !editPiece.quantity || !editPiece.price || !editPiece.report) return;
 
     // Simulación de edición (reemplaza con axios al backend)
-    const updatedPieces = pieces.map(p => p.id === editPiece.id ? editPiece : p);
+    const updatedPieces = pieces.map((p: Piece) => p.id === editPiece.id ? editPiece : p);
     usePiecesStore.setState({ pieces: updatedPieces, filteredPieces: updatedPieces });
     setEditPiece({ id: '', code: '', name: '', departmentId: '', quantity: 0, price: 0, report: '' });
     setIsEditOpen(false);
@@ -143,7 +143,7 @@ const Pieces: React.FC = () => {
                 </td>
               </tr>
             ) : (
-              filteredPieces.map((piece) => (
+              filteredPieces.map((piece: Piece) => (
                 <tr key={piece.id} className="border-t border-gray-200 hover:bg-gray-50">
                   <td className="py-3 px-4 text-sm text-gray-700">{piece.code}</td>
                   <td className="py-3 px-4 text-sm text-gray-700">{piece.name}</td>
