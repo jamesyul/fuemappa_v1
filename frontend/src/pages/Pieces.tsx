@@ -21,19 +21,21 @@ const Pieces: React.FC = () => {
     id: '',
     code: '',
     name: '',
-    department: user?.departmentId === 'd1' ? 'engine' : '', // Asegurar que department sea un valor válido
+    departmentId: user?.departmentId || '',
     quantity: 0,
     price: 0,
     report: '',
+    departmentName: user?.departmentId === 'd1' ? 'Engine' : '',
   });
   const [editPiece, setEditPiece] = useState<Piece>({
     id: '',
     code: '',
     name: '',
-    department: '',
+    departmentId: '',
     quantity: 0,
     price: 0,
     report: '',
+    departmentName: '',
   });
   const [imageFile, setImageFile] = useState<File | null>(null);
 
@@ -67,28 +69,58 @@ const Pieces: React.FC = () => {
   const canEditDelete = user?.role === 'admin' || user?.role === 'jefe_departamento';
 
   const handleCreatePiece = (piece: Piece) => {
-    if (!piece.code || !piece.name || !piece.department || !piece.quantity || !piece.price || !piece.report) return;
+    if (!piece.code || !piece.name || !piece.departmentId || !piece.quantity || !piece.price || !piece.report) return;
 
     const newPieceData: Piece = {
       ...piece,
-      id: Date.now().toString(),
+      departmentName: piece.departmentId === 'd1' ? 'Engine' : 
+                     piece.departmentId === 'd2' ? 'Transmission' :
+                     piece.departmentId === 'd3' ? 'Vehicle Dynamics' :
+                     piece.departmentId === 'd4' ? 'Aero' :
+                     piece.departmentId === 'd5' ? 'Chassis' : '',
     };
     if (imageFile) {
       console.log('Imagen subida:', imageFile.name);
     }
     const updatedPieces = [...pieces, newPieceData];
     usePiecesStore.setState({ pieces: updatedPieces, filteredPieces: updatedPieces });
-    setNewPiece({ id: '', code: '', name: '', department: user?.departmentId === 'd1' ? 'engine' : '', quantity: 0, price: 0, report: '' });
+    setNewPiece({ 
+      id: '', 
+      code: '', 
+      name: '', 
+      departmentId: user?.departmentId || '', 
+      quantity: 0, 
+      price: 0, 
+      report: '',
+      departmentName: user?.departmentId === 'd1' ? 'Engine' : '',
+    });
     setImageFile(null);
     setIsCreateOpen(false);
   };
 
   const handleEditPiece = (piece: Piece) => {
-    if (!piece.code || !piece.name || !piece.department || !piece.quantity || !piece.price || !piece.report) return;
+    if (!piece.code || !piece.name || !piece.departmentId || !piece.quantity || !piece.price || !piece.report) return;
 
-    const updatedPieces = pieces.map((p: Piece) => p.id === piece.id ? piece : p);
+    const updatedPiece: Piece = {
+      ...piece,
+      departmentName: piece.departmentId === 'd1' ? 'Engine' : 
+                     piece.departmentId === 'd2' ? 'Transmission' :
+                     piece.departmentId === 'd3' ? 'Vehicle Dynamics' :
+                     piece.departmentId === 'd4' ? 'Aero' :
+                     piece.departmentId === 'd5' ? 'Chassis' : '',
+    };
+    const updatedPieces = pieces.map((p: Piece) => p.id === piece.id ? updatedPiece : p);
     usePiecesStore.setState({ pieces: updatedPieces, filteredPieces: updatedPieces });
-    setEditPiece({ id: '', code: '', name: '', department: '', quantity: 0, price: 0, report: '' });
+    setEditPiece({ 
+      id: '', 
+      code: '', 
+      name: '', 
+      departmentId: '', 
+      quantity: 0, 
+      price: 0, 
+      report: '',
+      departmentName: '',
+    });
     setIsEditOpen(false);
   };
 

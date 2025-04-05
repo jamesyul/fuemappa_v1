@@ -27,7 +27,7 @@ interface PieceFormProps {
 const PieceForm: React.FC<PieceFormProps> = ({ piece: initialPiece, onSubmit }) => {
   const [piece, setPiece] = useState<Piece>(initialPiece);
   const [generateOptions, setGenerateOptions] = useState({
-    department: initialPiece.department || '', // Usar initialPiece directamente
+    department: initialPiece.departmentId || '',
     subcategory: '',
     year: new Date().getFullYear().toString().slice(-2),
     serial: '001',
@@ -201,17 +201,17 @@ const PieceForm: React.FC<PieceFormProps> = ({ piece: initialPiece, onSubmit }) 
         </label>
         <select
           id="department"
-          name="department"
-          value={piece.department || ''}
+          name="departmentId"
+          value={piece.departmentId || ''}
           onChange={handleChange}
           className="block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="">Selecciona un departamento</option>
-          {departments.map(dep => (
-            <option key={dep.value} value={dep.value}>
-              {dep.label}
-            </option>
-          ))}
+          <option value="d1">Engine</option>
+          <option value="d2">Transmission</option>
+          <option value="d3">Vehicle Dynamics</option>
+          <option value="d4">Aero</option>
+          <option value="d5">Chassis</option>
         </select>
       </div>
 
