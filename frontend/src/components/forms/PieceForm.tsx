@@ -12,7 +12,7 @@ const departments = [
   { value: 'chassis', label: 'Chassis', prefix: 'CH' },
 ];
 
-// Opciones de subcategoría (personalízalas según tu proyecto)
+// Opciones de subcategoría
 const subcategories = [
   { value: '01', label: 'Componente Principal' },
   { value: '02', label: 'Accesorio' },
@@ -21,7 +21,7 @@ const subcategories = [
 
 interface PieceFormProps {
   piece: Piece;
-  onSubmit: (piece: Piece) => void;
+  onSubmit: (piece: Piece, imageFile?: File | null) => void; // Añadir imageFile como argumento opcional
 }
 
 const PieceForm: React.FC<PieceFormProps> = ({ piece: initialPiece, onSubmit }) => {
@@ -32,6 +32,7 @@ const PieceForm: React.FC<PieceFormProps> = ({ piece: initialPiece, onSubmit }) 
     year: new Date().getFullYear().toString().slice(-2),
     serial: '001',
   });
+  const [imageFile, setImageFile] = useState<File | null>(null); // Estado para manejar la imagen
 
   useEffect(() => {
     setPiece(initialPiece);
@@ -42,9 +43,16 @@ const PieceForm: React.FC<PieceFormProps> = ({ piece: initialPiece, onSubmit }) 
     setPiece({ ...piece, [name]: value });
   };
 
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
+    setImageFile(file);
+    // Opcional: Si quieres guardar el nombre del archivo o una URL en piece.report
+    setPiece({ ...piece, report: file ? file.name : '' });
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(piece);
+    onSubmit(piece, imageFile); // Pasar también el archivo de imagen
   };
 
   const handleGenerateCode = () => {
@@ -231,36 +239,52 @@ const PieceForm: React.FC<PieceFormProps> = ({ piece: initialPiece, onSubmit }) 
         />
       </div>
 
-      {/* Campo Precio */}
+      {/* Campo Precio con símbolo de € */}
       <div className="space-y-1">
         <label htmlFor="price" className="block text-sm font-medium text-gray-700">
           Precio
         </label>
-        <input
-          type="number"
-          id="price"
-          name="price"
-          value={piece.price || ''}
-          onChange={handleChange}
-          className="block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Precio"
-        />
+        <div className="relative">
+          <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+            €
+          </span>
+          <input
+            type="number"
+            id="price"
+            name="price"
+            value={piece.price || ''}
+            onChange={handleChange}
+            className="block w-full p-2 pl-8 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="0"
+          />
+        </div>
       </div>
 
-      {/* Campo Informe */}
+      {/* Campo para adjuntar imagen */}
       <div className="space-y-1">
-        <label htmlFor="report" className="block text-sm font-medium text-gray-700">
-          Informe (URL o texto)
+        <label htmlFor="image" className="block text-sm font-medium text-gray-700">
+          Adjuntar Imagen
         </label>
-        <input
-          type="text"
-          id="report"
-          name="report"
-          value={piece.report || ''}
-          onChange={handleChange}
-          className="block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Informe"
-        />
+        <div className="flex items-center space-x-2">
+          <input
+            type="file"
+            id="image"
+            accept="image/*"
+            onChange={handleImageChange}
+            className="hidden"
+          />
+          <label
+            htmlFor="image"
+            className="cursor-pointer bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600 transition-colors"
+          >
+            Seleccionar Imagen
+          </label>
+          {imageFile && (
+            <span className="text-sm text-gray-600 truncate max-w-xs">
+              {imageFile.name}
+            </span>
+          )}
+        </div>
       </div>
 
       {/* Botón de envío */}

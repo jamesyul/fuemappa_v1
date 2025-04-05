@@ -8,6 +8,20 @@ import { Dialog, Transition, Menu } from '@headlessui/react';
 import { Fragment } from 'react';
 import PieceForm from '../components/forms/PieceForm';
 
+// Mapeo de departmentId a department
+const departmentIdToDepartmentMap: { [key: string]: string } = {
+  d1: 'engine',
+  d2: 'transmission',
+  d3: 'vehicle_dynamics',
+  d4: 'aero',
+  d5: 'chassis',
+};
+
+const getDepartmentNameFromId = (departmentId: string | undefined): string => {
+  if (!departmentId) return '';
+  return departmentIdToDepartmentMap[departmentId] || '';
+};
+
 const Pieces: React.FC = () => {
   const { user } = useAuthStore();
   const { pieces, filteredPieces, fetchPieces, setFilter, setDepartmentFilter } = usePiecesStore();
@@ -25,7 +39,7 @@ const Pieces: React.FC = () => {
     quantity: 0,
     price: 0,
     report: '',
-    departmentName: user?.departmentId === 'd1' ? 'Engine' : '',
+    departmentName: getDepartmentNameFromId(user?.departmentId),
   });
   const [editPiece, setEditPiece] = useState<Piece>({
     id: '',
@@ -68,59 +82,59 @@ const Pieces: React.FC = () => {
 
   const canEditDelete = user?.role === 'admin' || user?.role === 'jefe_departamento';
 
-  const handleCreatePiece = (piece: Piece) => {
-    if (!piece.code || !piece.name || !piece.departmentId || !piece.quantity || !piece.price || !piece.report) return;
+  const handleCreatePiece = (piece: Piece, imageFile?: File | null) => {
+    if (!piece.code || !piece.name || !piece.departmentId || !piece.quantity || !piece.price) return;
 
     const newPieceData: Piece = {
       ...piece,
-      departmentName: piece.departmentId === 'd1' ? 'Engine' : 
-                     piece.departmentId === 'd2' ? 'Transmission' :
-                     piece.departmentId === 'd3' ? 'Vehicle Dynamics' :
-                     piece.departmentId === 'd4' ? 'Aero' :
-                     piece.departmentId === 'd5' ? 'Chassis' : '',
+      id: Date.now().toString(),
+      departmentName: getDepartmentNameFromId(piece.departmentId),
     };
     if (imageFile) {
       console.log('Imagen subida:', imageFile.name);
+      // Aquí podrías manejar la subida de la imagen a un servidor o almacenarla localmente
+      // Por ahora, solo guardamos el nombre del archivo en piece.report
     }
     const updatedPieces = [...pieces, newPieceData];
     usePiecesStore.setState({ pieces: updatedPieces, filteredPieces: updatedPieces });
-    setNewPiece({ 
-      id: '', 
-      code: '', 
-      name: '', 
-      departmentId: user?.departmentId || '', 
-      quantity: 0, 
-      price: 0, 
+    setNewPiece({
+      id: '',
+      code: '',
+      name: '',
+      departmentId: user?.departmentId || '',
+      quantity: 0,
+      price: 0,
       report: '',
-      departmentName: user?.departmentId === 'd1' ? 'Engine' : '',
+      departmentName: getDepartmentNameFromId(user?.departmentId),
     });
     setImageFile(null);
     setIsCreateOpen(false);
   };
 
-  const handleEditPiece = (piece: Piece) => {
-    if (!piece.code || !piece.name || !piece.departmentId || !piece.quantity || !piece.price || !piece.report) return;
+  const handleEditPiece = (piece: Piece, imageFile?: File | null) => {
+    if (!piece.code || !piece.name || !piece.departmentId || !piece.quantity || !piece.price) return;
 
     const updatedPiece: Piece = {
       ...piece,
-      departmentName: piece.departmentId === 'd1' ? 'Engine' : 
-                     piece.departmentId === 'd2' ? 'Transmission' :
-                     piece.departmentId === 'd3' ? 'Vehicle Dynamics' :
-                     piece.departmentId === 'd4' ? 'Aero' :
-                     piece.departmentId === 'd5' ? 'Chassis' : '',
+      departmentName: getDepartmentNameFromId(piece.departmentId),
     };
-    const updatedPieces = pieces.map((p: Piece) => p.id === piece.id ? updatedPiece : p);
+    if (imageFile) {
+      console.log('Imagen actualizada:', imageFile.name);
+      // Aquí podrías manejar la subida de la imagen a un servidor o almacenarla localmente
+    }
+    const updatedPieces = pieces.map((p: Piece) => (p.id === piece.id ? updatedPiece : p));
     usePiecesStore.setState({ pieces: updatedPieces, filteredPieces: updatedPieces });
-    setEditPiece({ 
-      id: '', 
-      code: '', 
-      name: '', 
-      departmentId: '', 
-      quantity: 0, 
-      price: 0, 
+    setEditPiece({
+      id: '',
+      code: '',
+      name: '',
+      departmentId: '',
+      quantity: 0,
+      price: 0,
       report: '',
       departmentName: '',
     });
+    setImageFile(null);
     setIsEditOpen(false);
   };
 
@@ -188,7 +202,7 @@ const Pieces: React.FC = () => {
                     <td className="py-3 px-4 text-sm text-gray-700">{piece.departmentName || 'Sin departamento'}</td>
                   )}
                   <td className="py-3 px-4 text-sm text-gray-700">{piece.quantity}</td>
-                  <td className="py-3 px-4 text-sm text-gray-700">${piece.price.toLocaleString()}</td>
+                  <td className="py-3 px-4 text-sm text-gray-700">€{piece.price.toLocaleString()}</td>
                   <td className="py-3 px-4 text-sm text-gray-700">
                     <button
                       onClick={() => {
@@ -282,7 +296,7 @@ const Pieces: React.FC = () => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-gray-500 bg-opacity-10" />
+            <div className="fixed inset-0 bg-gray-500 bg-opacity-5" />
           </Transition.Child>
 
           <div className="fixed inset-0 overflow-y-auto">
@@ -310,7 +324,7 @@ const Pieces: React.FC = () => {
                         <li>Código: {selectedPiece.code}</li>
                         <li>Departamento: {selectedPiece.departmentName || 'Sin departamento'}</li>
                         <li>Cantidad: {selectedPiece.quantity}</li>
-                        <li>Precio: ${selectedPiece.price.toLocaleString()}</li>
+                        <li>Precio: €{selectedPiece.price.toLocaleString()}</li>
                         <li>Informe: {selectedPiece.report}</li>
                       </ul>
                     )}
@@ -348,7 +362,7 @@ const Pieces: React.FC = () => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-gray-500 bg-opacity-10" onClick={() => setIsCreateOpen(false)} />
+            <div className="fixed inset-0 bg-gray-500 bg-opacity-5" onClick={() => setIsCreateOpen(false)} />
           </Transition.Child>
 
           <div className="fixed inset-0 overflow-y-auto">
@@ -369,7 +383,6 @@ const Pieces: React.FC = () => {
                   >
                     Crear Nueva Pieza
                   </Dialog.Title>
-                  {/* Añadir mensaje de depuración */}
                   {newPiece ? (
                     <PieceForm piece={newPiece} onSubmit={handleCreatePiece} />
                   ) : (
@@ -398,7 +411,7 @@ const Pieces: React.FC = () => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-gray-500 bg-opacity-10" onClick={() => setIsEditOpen(false)} />
+            <div className="fixed inset-0 bg-gray-500 bg-opacity-5" onClick={() => setIsEditOpen(false)} />
           </Transition.Child>
 
           <div className="fixed inset-0 overflow-y-auto">
