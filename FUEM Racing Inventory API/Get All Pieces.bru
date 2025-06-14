@@ -1,0 +1,21 @@
+meta {
+  name: Get All Pieces
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{base_url}}/pieces?select=*
+  body: none
+  auth: none
+}
+
+params:query {
+  select: *
+}
+
+headers {
+  apikey: {{api_key}}
+  Authorization: Bearer {{api_key}}
+  Content-Type: application/json
+}

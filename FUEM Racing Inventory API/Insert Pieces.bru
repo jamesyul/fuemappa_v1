@@ -1,0 +1,75 @@
+meta {
+  name: Insert Pieces
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{base_url}}/pieces
+  body: json
+  auth: inherit
+}
+
+headers {
+  apikey: {{service_key}}
+  Authorization: Bearer {{service_key}}
+  Content-Type: application/json
+}
+
+body:json {
+  [
+    // Vehicle Dynamics - Brakes (BR)
+    { "id": "BR1", "code": "BR-1", "name": "BALANCE CAR", "departmentId": "VD", "quantity": 1, "price": 1500, "report": "Informe_balance_car.pdf" },
+    { "id": "BR2", "code": "BR-2", "name": "BRAKE DISCS", "departmentId": "VD", "quantity": 1, "price": 1200, "report": "Informe_brake_discs.pdf" },
+    { "id": "BR3", "code": "BR-3", "name": "BRAKE PADS", "departmentId": "VD", "quantity": 4, "price": 300, "report": "Informe_brake_pads.pdf" },
+    { "id": "BR4", "code": "BR-4", "name": "BRAKE CALIPERS", "departmentId": "VD", "quantity": 4, "price": 800, "report": "Informe_brake_calipers.pdf" },
+    { "id": "BR5", "code": "BR-5", "name": "BRAKE FLUID RESERVOIR", "departmentId": "VD", "quantity": 1, "price": 150, "report": "Informe_brake_fluid_reservoir.pdf" },
+  
+    // Vehicle Dynamics - Steering (ST)
+    { "id": "ST1", "code": "ST-1", "name": "STEERING RACK", "departmentId": "VD", "quantity": 1, "price": 1200, "report": "Informe_steering_rack.pdf" },
+    { "id": "ST2", "code": "ST-2", "name": "STEERING WHEEL", "departmentId": "VD", "quantity": 1, "price": 500, "report": "Informe_steering_wheel.pdf" },
+    { "id": "ST3", "code": "ST-3", "name": "TIE RODS", "departmentId": "VD", "quantity": 2, "price": 200, "report": "Informe_tie_rods.pdf" },
+    { "id": "ST4", "code": "ST-4", "name": "STEERING COLUMN", "departmentId": "VD", "quantity": 1, "price": 400, "report": "Informe_steering_column.pdf" },
+  
+    // Vehicle Dynamics - Suspension (SU)
+    { "id": "SU1", "code": "SU-1", "name": "SHOCK ABSORBERS", "departmentId": "VD", "quantity": 4, "price": 600, "report": "Informe_shock_absorbers.pdf" },
+    { "id": "SU2", "code": "SU-2", "name": "COIL SPRINGS", "departmentId": "VD", "quantity": 4, "price": 400, "report": "Informe_coil_springs.pdf" },
+    { "id": "SU3", "code": "SU-3", "name": "CONTROL ARMS", "departmentId": "VD", "quantity": 4, "price": 500, "report": "Informe_control_arms.pdf" },
+    { "id": "SU4", "code": "SU-4", "name": "SWAY BAR", "departmentId": "VD", "quantity": 1, "price": 300, "report": "Informe_sway_bar.pdf" },
+  
+    // Vehicle Dynamics - Wheels/Tires (WT)
+    { "id": "WT1", "code": "WT-1", "name": "WHEELS (SET OF 4)", "departmentId": "VD", "quantity": 1, "price": 2000, "report": "Informe_wheels.pdf" },
+    { "id": "WT2", "code": "WT-2", "name": "TIRES (SET OF 4)", "departmentId": "VD", "quantity": 1, "price": 1500, "report": "Informe_tires.pdf" },
+    { "id": "WT3", "code": "WT-3", "name": "WHEEL BEARINGS", "departmentId": "VD", "quantity": 4, "price": 200, "report": "Informe_wheel_bearings.pdf" },
+    { "id": "WT4", "code": "WT-4", "name": "LUG NUTS (SET)", "departmentId": "VD", "quantity": 1, "price": 50, "report": "Informe_lug_nuts.pdf" },
+  
+    // Engine - Engine (EN)
+    { "id": "EN1", "code": "EN-1", "name": "AIR FILTER", "departmentId": "EN", "quantity": 1, "price": 400, "report": "Informe_air_filter.pdf" },
+    { "id": "EN2", "code": "EN-2", "name": "FUEL INJECTORS", "departmentId": "EN", "quantity": 4, "price": 600, "report": "Informe_fuel_injectors.pdf" },
+    { "id": "EN3", "code": "EN-3", "name": "RADIATOR", "departmentId": "EN", "quantity": 1, "price": 800, "report": "Informe_radiator.pdf" },
+    { "id": "EN4", "code": "EN-4", "name": "OIL PUMP", "departmentId": "EN", "quantity": 1, "price": 500, "report": "Informe_oil_pump.pdf" },
+    { "id": "EN5", "code": "EN-5", "name": "TIMING BELT", "departmentId": "EN", "quantity": 1, "price": 300, "report": "Informe_timing_belt.pdf" },
+  
+    // Engine - Electrical (EL)
+    { "id": "EL1", "code": "EL-1", "name": "BATTERY", "departmentId": "EN", "quantity": 1, "price": 600, "report": "Informe_battery.pdf" },
+    { "id": "EL2", "code": "EL-2", "name": "ALTERNATOR", "departmentId": "EN", "quantity": 1, "price": 700, "report": "Informe_alternator.pdf" },
+    { "id": "EL3", "code": "EL-3", "name": "SPARK PLUGS (SET)", "departmentId": "EN", "quantity": 1, "price": 100, "report": "Informe_spark_plugs.pdf" },
+    { "id": "EL4", "code": "EL-4", "name": "ECU (ENGINE CONTROL UNIT)", "departmentId": "EN", "quantity": 1, "price": 1500, "report": "Informe_ecu.pdf" },
+  
+    // Chassis & Aero - Frame/Chassis & Body (FR)
+    { "id": "FR1", "code": "FR-1", "name": "AERODYNAMIC WING (IF USED)", "departmentId": "AE", "quantity": 1, "price": 3000, "report": "Informe_aero_wing.pdf" },
+    { "id": "FR2", "code": "FR-2", "name": "FRONT BUMPER", "departmentId": "CH", "quantity": 1, "price": 700, "report": "Informe_front_bumper.pdf" },
+    { "id": "FR3", "code": "FR-3", "name": "REAR BUMPER", "departmentId": "CH", "quantity": 1, "price": 700, "report": "Informe_rear_bumper.pdf" },
+    { "id": "FR4", "code": "FR-4", "name": "SIDE PANELS", "departmentId": "CH", "quantity": 2, "price": 500, "report": "Informe_side_panels.pdf" },
+    { "id": "FR5", "code": "FR-5", "name": "ROLL CAGE", "departmentId": "CH", "quantity": 1, "price": 2000, "report": "Informe_roll_cage.pdf" },
+    { "id": "FR6", "code": "FR-6", "name": "FLOOR PANEL", "departmentId": "CH", "quantity": 1, "price": 900, "report": "Informe_floor_panel.pdf" },
+    { "id": "FR7", "code": "FR-7", "name": "HOOD", "departmentId": "CH", "quantity": 1, "price": 800, "report": "Informe_hood.pdf" },
+    { "id": "FR8", "code": "FR-8", "name": "BODY ATTACHMENTS", "departmentId": "CH", "quantity": 1, "price": 900, "report": "Informe_body_attachments.pdf" },
+  
+    // Chassis & Aero - Miscellaneous (MS)
+    { "id": "MS1", "code": "MS-1", "name": "SEAT BELTS", "departmentId": "CH", "quantity": 1, "price": 300, "report": "Informe_seat_belts.pdf" },
+    { "id": "MS2", "code": "MS-2", "name": "DRIVER SEAT", "departmentId": "CH", "quantity": 1, "price": 800, "report": "Informe_driver_seat.pdf" },
+    { "id": "MS3", "code": "MS-3", "name": "FIRE EXTINGUISHER", "departmentId": "CH", "quantity": 1, "price": 200, "report": "Informe_fire_extinguisher.pdf" },
+    { "id": "MS4", "code": "MS-4", "name": "DASHBOARD", "departmentId": "CH", "quantity": 1, "price": 600, "report": "Informe_dashboard.pdf" }
+  ]
+}

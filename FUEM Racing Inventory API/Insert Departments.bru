@@ -1,0 +1,26 @@
+meta {
+  name: Insert Departments
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{base_url}}/departments
+  body: json
+  auth: inherit
+}
+
+headers {
+  apikey: {{service_key}}
+  Authorization: Bearer {{service_key}}
+  Content-Type: application/json
+}
+
+body:json {
+  [
+    { "id": "VD", "name": "Vehicle Dynamics", "description": "Handles brakes, steering, suspension, and wheels" },
+    { "id": "EN", "name": "Engine", "description": "Manages engine, drivetrain, and electrical systems" },
+    { "id": "AE", "name": "Aero", "description": "Focuses on aerodynamics and wings" },
+    { "id": "CH", "name": "Chassis", "description": "Handles chassis, body, and miscellaneous assembly" }
+  ]
+}

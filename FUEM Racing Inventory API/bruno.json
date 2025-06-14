@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "FUEM Racing Inventory API",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
