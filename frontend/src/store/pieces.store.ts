@@ -1,42 +1,47 @@
+// --- FICHERO: src/store/pieces.store.ts ---
 import { create } from 'zustand';
 import { Piece } from '../types/piece.types';
+import { getPieces } from '../services/pieces.service'; // Importamos la función del servicio
 
 interface PiecesState {
   pieces: Piece[];
   filteredPieces: Piece[];
-  setPieces: (pieces: Piece[]) => void; // Nueva función para actualizar pieces
-  setFilteredPieces: (filteredPieces: Piece[]) => void; // Nueva función para actualizar filteredPieces
+  setPieces: (pieces: Piece[]) => void;
+  setFilteredPieces: (filteredPieces: Piece[]) => void;
   fetchPieces: () => Promise<void>;
   setFilter: (filter: string) => void;
   setDepartmentFilter: (departmentId: string) => void;
 }
 
-export const usePiecesStore = create<PiecesState>((set) => ({
+export const usePiecesStore = create<PiecesState>((set, get) => ({
   pieces: [],
   filteredPieces: [],
-  setPieces: (pieces) => set({ pieces }), // Implementación de setPieces
-  setFilteredPieces: (filteredPieces) => set({ filteredPieces }), // Implementación de setFilteredPieces
+  setPieces: (pieces) => set({ pieces }),
+  setFilteredPieces: (filteredPieces) => set({ filteredPieces }),
   fetchPieces: async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/pieces');
-      const data = await response.json();
+      // AHORA usamos la función del servicio, que se autenticará automáticamente
+      const data = await getPieces();
       set({ pieces: data, filteredPieces: data });
     } catch (error) {
       console.error('Error al obtener las piezas:', error);
+      set({ pieces: [], filteredPieces: [] }); // En caso de error, vaciar la lista
     }
   },
   setFilter: (filter) => {
-    set((state) => ({
-      filteredPieces: state.pieces.filter((piece) =>
+    const { pieces } = get();
+    set({
+      filteredPieces: pieces.filter((piece) =>
         piece.name.toLowerCase().includes(filter.toLowerCase())
       ),
-    }));
+    });
   },
   setDepartmentFilter: (departmentId) => {
-    set((state) => ({
+    const { pieces } = get();
+    set({
       filteredPieces: departmentId
-        ? state.pieces.filter((piece) => piece.departmentId === departmentId)
-        : state.pieces,
-    }));
+        ? pieces.filter((piece) => piece.departmentId === departmentId)
+        : pieces,
+    });
   },
 }));

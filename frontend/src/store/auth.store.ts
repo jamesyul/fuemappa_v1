@@ -1,35 +1,33 @@
-/*import { create } from 'zustand';
-
-interface AuthState {
-  user: { id: string; name: string; role: string; departmentId?: string } | null;
-  login: (userData: { id: string; name: string; role: string; departmentId?: string }) => void;
-  logout: () => void;
-}
-
-export const useAuthStore = create<AuthState>((set) => ({
-  user: null,
-  login: (userData) => set({ user: userData }),
-  logout: () => set({ user: null }),
-}));
-*/
-// src/store/auth.store.ts
+// --- FICHERO: src/store/auth.store.ts ---
 import { create } from 'zustand';
 
 interface User {
   id: string;
   name: string;
   role: 'admin' | 'jefe_departamento' | 'integrante_departamento';
-  departmentId?: string; // Opcional para jefe/integrante
+  departmentId?: string;
 }
 
 interface AuthState {
   user: User | null;
-  login: (user: User) => void;
+  token: string | null; // NUEVO: Estado para almacenar el token
+  // AHORA login recibe el usuario y el token
+  login: (user: User, token: string) => void;
   logout: () => void;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
   user: null,
-  login: (user) => set({ user }),
-  logout: () => set({ user: null }),
+  // Leemos el token de localStorage al iniciar, para mantener la sesión
+  token: localStorage.getItem('session_token'), 
+  login: (user, token) => {
+    // Guardamos el token en localStorage para persistir la sesión
+    localStorage.setItem('session_token', token);
+    set({ user, token });
+  },
+  logout: () => {
+    // Removemos el token de localStorage al cerrar sesión
+    localStorage.removeItem('session_token');
+    set({ user: null, token: null });
+  },
 }));

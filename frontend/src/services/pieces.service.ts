@@ -1,13 +1,16 @@
-// src/services/pieces.service.ts
-import axios from 'axios';
+// --- FICHERO: src/services/pieces.service.ts ---
+import api from './api'; // Importamos nuestro cliente centralizado
 import { Piece } from '../types/piece.types';
 
-const api = axios.create({ baseURL: 'http://localhost:3000/api' });
-
-export const fetchPieces = async (): Promise<Piece[]> => {
-  const response = await api.get('/pieces');
-  return response.data;
+export const getPieces = async (): Promise<Piece[]> => {
+  // Usamos el cliente 'api' que ya tiene las cabeceras correctas
+  const { data } = await api.get('/pieces?select=*');
+  return data;
 };
 
-export default { fetchPieces };
-export {}; // Añade esta línea al final
+export const createPiece = async (pieceData: Partial<Piece>): Promise<Piece> => {
+  const { data } = await api.post('/pieces', pieceData);
+  return data;
+};
+
+// ... otros servicios como updatePiece, deletePiece ...
