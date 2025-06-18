@@ -5,19 +5,20 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Pieces from './pages/Pieces';
 import Departments from './pages/Departments';
-import Navbar from './components/common/Navbar'; // Opcional: para navegación
+import DataAnalyzer from './pages/DataAnalyzer'; // <-- AÑADIR
+import Navbar from './components/common/Navbar';
 
 const App: React.FC = () => {
   return (
     <div>
-      <Navbar /> {/* Opcional: Navbar común en todas las páginas */}
+      <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/pieces" element={<Pieces />} />
         <Route path="/departments" element={<Departments />} />
-        {/* Ruta 404 opcional */}
+        <Route path="/analyzer" element={<DataAnalyzer />} /> {/* <-- AÑADIR */}
         <Route path="*" element={<h1>404 - Página no encontrada</h1>} />
       </Routes>
     </div>

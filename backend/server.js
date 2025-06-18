@@ -4,7 +4,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import pieceRoutes from './routes/pieceRoutes.js';
 import authRoutes from './routes/authRoutes.js';
-import departmentRoutes from './routes/departmentRoutes.js'; // AÑADIR
+import departmentRoutes from './routes/departmentRoutes.js';
+import analyzerRoutes from './routes/analyzerRoutes.js'; // <-- AÑADIR
 
 dotenv.config();
 
@@ -17,7 +18,8 @@ app.use(express.json());
 // Rutas de la API
 app.use('/api/pieces', pieceRoutes);
 app.use('/api/auth', authRoutes);
-app.use('/api/departments', departmentRoutes); // AÑADIR
+app.use('/api/departments', departmentRoutes);
+app.use('/api/analyzer', analyzerRoutes); // <-- AÑADIR
 
 app.get('/', (req, res) => {
   res.send('FUEM Racing Inventory API is running!');
