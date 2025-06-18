@@ -1,31 +1,29 @@
-// --- FICHERO: src/services/api.ts ---
 import axios from 'axios';
 import { useAuthStore } from '../store/auth.store';
 
-// --- ESTA ES LA LÍNEA MÁS IMPORTANTE ---
-// Le decimos a nuestro frontend que todas las peticiones deben ir a nuestro backend local.
-const API_URL = import.meta.env.VITE_API_URL;
-if (!API_URL) {
-  throw new Error("VITE_API_URL is not defined in the .env file");
-}
-
+// Crea una instancia de Axios pre-configurada.
 const api = axios.create({
-  baseURL: API_URL, // <--- AQUÍ ESTÁ LA CORRECCIÓN
+  baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json',
   },
 });
+
 api.interceptors.request.use(
   (config) => {
+    // Obtiene el estado más reciente del store de autenticación.
     const token = useAuthStore.getState().token;
     
+    // Si existe un token, lo añade a la cabecera 'Authorization'.
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     
+    // Devuelve la configuración modificada para que la petición continúe.
     return config;
   },
   (error) => {
+    // Si hay un error al configurar la petición, lo rechaza.
     return Promise.reject(error);
   }
 );
