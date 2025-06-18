@@ -4,7 +4,10 @@ import { useAuthStore } from '../store/auth.store';
 
 // --- ESTA ES LA LÍNEA MÁS IMPORTANTE ---
 // Le decimos a nuestro frontend que todas las peticiones deben ir a nuestro backend local.
-const API_URL = 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_API_URL;
+if (!API_URL) {
+  throw new Error("VITE_API_URL is not defined in the .env file");
+}
 
 const api = axios.create({
   baseURL: API_URL, // <--- AQUÍ ESTÁ LA CORRECCIÓN
@@ -12,9 +15,6 @@ const api = axios.create({
     'Content-Type': 'application/json',
   },
 });
-
-// Este interceptor añade el token de sesión a cada petición,
-// permitiendo que nuestro backend verifique si el usuario está logueado.
 api.interceptors.request.use(
   (config) => {
     const token = useAuthStore.getState().token;
