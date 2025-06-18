@@ -106,4 +106,25 @@ export const authController = {
       res.status(500).json({ message: 'Error del servidor durante el login', details: err.message });
     }
   },
+
+  // --- AÑADIR ESTA NUEVA FUNCIÓN ---
+  getProfile: async (req, res) => {
+    // El middleware checkRole ya ha decodificado el token y añadido req.user
+    try {
+      const { data: user, error } = await supabase
+        .from('users')
+        .select('id, name, email, role, departmentId')
+        .eq('id', req.user.id)
+        .single();
+
+      if (error || !user) {
+        return res.status(404).json({ message: 'Usuario no encontrado.' });
+      }
+
+      res.status(200).json(user);
+    } catch (err) {
+      console.error('Get Profile Error:', err.message);
+      res.status(500).json({ message: 'Error del servidor al obtener el perfil.' });
+    }
+  },
 };

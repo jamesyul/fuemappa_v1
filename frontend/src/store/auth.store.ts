@@ -1,33 +1,44 @@
 // --- FICHERO: src/store/auth.store.ts ---
 import { create } from 'zustand';
-
-interface User {
-  id: string;
-  name: string;
-  role: 'admin' | 'jefe_departamento' | 'integrante_departamento';
-  departmentId?: string;
-}
+import { User } from '../types/user.types';
+import { getProfile } from '../services/auth.service'; // <-- Importar servicio de perfil
 
 interface AuthState {
   user: User | null;
-  token: string | null; // NUEVO: Estado para almacenar el token
-  // AHORA login recibe el usuario y el token
-  login: (user: User, token: string) => void;
+  token: string | null;
+  login: (user: User, token:string) => void;
   logout: () => void;
+  checkAuthStatus: () => Promise<void>; // <-- NUEVA FUNCIÓN
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
   user: null,
-  // Leemos el token de localStorage al iniciar, para mantener la sesión
-  token: localStorage.getItem('session_token'), 
+  token: localStorage.getItem('session_token'),
   login: (user, token) => {
-    // Guardamos el token en localStorage para persistir la sesión
     localStorage.setItem('session_token', token);
     set({ user, token });
   },
   logout: () => {
-    // Removemos el token de localStorage al cerrar sesión
     localStorage.removeItem('session_token');
     set({ user: null, token: null });
+  },
+  // --- AÑADIR LÓGICA DE CHECKAUTHSTATUS ---
+  checkAuthStatus: async () => {
+    const token = localStorage.getItem('session_token');
+    if (!token) {
+      set({ user: null, token: null });
+      return;
+    }
+    
+    try {
+      // Usamos el token para pedir los datos del usuario al backend
+      const userProfile = await getProfile();
+      set({ user: userProfile, token }); // Hidratamos el store con los datos
+    } catch (error) {
+      console.error("Token inválido o sesión expirada. Deslogueando.");
+      // Si el token es inválido, limpiamos todo
+      localStorage.removeItem('session_token');
+      set({ user: null, token: null });
+    }
   },
 }));
