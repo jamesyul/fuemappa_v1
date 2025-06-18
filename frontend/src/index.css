@@ -13,3 +13,12 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/*.swiper, .swiper-wrapper {
+  height: 100%;
+  width: 100%;
+}
+
+.swiper-slide img {
+  background-color: #333; /* Un gris oscuro */
+/*}
