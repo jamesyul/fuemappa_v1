@@ -25,4 +25,4 @@ dist-ssr
 
 
 .env
-../backend/.env
+/Users/yulcardenas/Desktop/2024_25/FUEM/fuemappa_v1/backend/.env
