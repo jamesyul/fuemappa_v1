@@ -1,7 +1,10 @@
 import axios from 'axios';
 import { useAuthStore } from '../store/auth.store';
 
-// Crea una instancia de Axios pre-configurada.
+// En producción, Vercel proveerá esta variable. En local, no estará definida.
+// Usamos /api como fallback, que Vercel redirigirá correctamente.
+const API_URL = import.meta.env.VITE_API_URL || '/api';
+
 const api = axios.create({
   baseURL: API_URL,
   headers: {
@@ -11,19 +14,13 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    // Obtiene el estado más reciente del store de autenticación.
     const token = useAuthStore.getState().token;
-    
-    // Si existe un token, lo añade a la cabecera 'Authorization'.
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-    
-    // Devuelve la configuración modificada para que la petición continúe.
     return config;
   },
   (error) => {
-    // Si hay un error al configurar la petición, lo rechaza.
     return Promise.reject(error);
   }
 );

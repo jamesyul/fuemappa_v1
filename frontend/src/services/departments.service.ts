@@ -1,24 +1,22 @@
-// --- FICHERO: src/services/departments.service.ts ---
+// --- FICHERO: src/services/departments.service.ts (CORREGIDO) ---
 import api from './api'; // Importamos nuestro cliente centralizado
 import { Department } from '../types/department.types';
 
 export const getDepartments = async (): Promise<Department[]> => {
-  // Usamos el cliente 'api' que ya tiene las cabeceras correctas
-  const { data } = await api.get('/departments?select=*');
+  const { data } = await api.get('/departments');
   return data;
 };
-export const createDepartment = async (data: { name: string }) => {
-  const response = await axios.post('/departments', data);
-  return response.data;
+
+export const createDepartment = async (deptData: Partial<Department>): Promise<Department> => {
+  const { data } = await api.post('/departments', deptData);
+  return data;
 };
 
-export const updateDepartment = async (id: string, data: { name: string }) => {
-  const response = await axios.put(`/departments/${id}`, data);
-  return response.data;
+export const updateDepartment = async (id: string, deptData: Partial<Department>): Promise<Department> => {
+  const { data } = await api.put(`/departments/${id}`, deptData);
+  return data;
 };
 
-export const deleteDepartment = async (id: string) => {
-  const response = await axios.delete(`/departments/${id}`);
-  return response.data;
+export const deleteDepartment = async (id: string): Promise<void> => {
+  await api.delete(`/departments/${id}`);
 };
-// ... otros servicios como create, update, delete ...

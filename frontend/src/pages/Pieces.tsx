@@ -64,7 +64,7 @@ const Pieces: React.FC = () => {
   const [isReportOpen, setIsReportOpen] = useState(false);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
-  const [newPiece, setNewPiece] = useState<Piece>({
+  const [newPiece] = useState<Piece>({
     id: '', code: '', name: '',
     departmentId: user?.departmentId || '',
     quantity: 0, price: 0, report: '',
