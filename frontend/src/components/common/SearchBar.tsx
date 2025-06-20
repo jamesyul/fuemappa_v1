@@ -6,7 +6,7 @@ import { Fragment } from 'react';
 import { FaMagnifyingGlass } from 'react-icons/fa6';
 import { usePiecesStore } from '../../store/pieces.store';
 import { Piece } from '../../types/piece.types';
-//import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 type System = 'VD' | 'EN' | 'CH/AE';
 
