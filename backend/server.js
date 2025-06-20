@@ -11,28 +11,36 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 5000;
 
-// Configuración de CORS más robusta para producción y desarrollo
+// --- CONFIGURACIÓN DE CORS DEFINITIVA Y DINÁMICA ---
+
+// 1. Lista de orígenes de confianza explícitos.
 const whitelist = [
-  'http://localhost:5173', // URL de desarrollo del frontend
-  process.env.FRONTEND_URL, // URL de producción del frontend (desde .env)
+  'http://localhost:5173',      // Permitimos el desarrollo local
+  process.env.FRONTEND_URL,     // Permitimos la URL de producción principal
 ];
 
 const corsOptions = {
-  origin: function (origin, callback) {
-    // Permite peticiones sin 'origin' (como las de Postman o apps móviles) o si el origen está en la lista blanca
-    if (!origin || whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
+  origin: (origin, callback) => {
+    // 2. Lógica dinámica:
+    //    - Permite peticiones sin origen (ej. Postman).
+    //    - Permite orígenes en nuestra lista blanca.
+    //    - Permite CUALQUIER subdominio de Vercel (para las previews).
+    if (!origin || whitelist.includes(origin) || origin.endsWith('.vercel.app')) {
+      callback(null, true); // Origen permitido
     } else {
+      // Si el origen no cumple ninguna condición, se rechaza.
       callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: true, // Si en el futuro usas cookies o sesiones más complejas
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
+// ------------------------------------------------
+
 app.use(express.json());
 
-// Definición de las rutas de la API
+// Definición de las rutas de la API (sin cambios)
 app.use('/api/pieces', pieceRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/departments', departmentRoutes);
@@ -43,14 +51,6 @@ app.get('/', (req, res) => {
   res.send('FUEM Racing Inventory API is running!');
 });
 
-// Este bloque permite que el servidor se ejecute localmente con "npm run dev",
-// pero no interferirá con Vercel porque Vercel no ejecuta este fichero directamente.
-// Vercel solo importa el 'export default app'.
-if (process.env.NODE_ENV !== 'production') {
-  app.listen(port, () => {
-    console.log(`Server is running for local development on http://localhost:${port}`);
-  });
-}
 
 // Exporta la instancia de la app para que Vercel pueda usarla como una función serverless.
 export default app;
