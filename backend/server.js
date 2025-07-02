@@ -5,6 +5,7 @@ import pieceRoutes from './routes/pieceRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import departmentRoutes from './routes/departmentRoutes.js';
 import analyzerRoutes from './routes/analyzerRoutes.js';
+import userRoutes from './routes/userRoutes.js'; // <-- AÑADIR
 
 dotenv.config();
 
@@ -45,6 +46,7 @@ app.use('/api/pieces', pieceRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/departments', departmentRoutes);
 app.use('/api/analyzer', analyzerRoutes);
+app.use('/api/users', userRoutes); // <-- AÑADIR
 
 // Ruta raíz
 app.get('/', (req, res) => { res.send('FUEM Racing Inventory API is running!'); });

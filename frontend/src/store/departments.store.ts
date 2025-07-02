@@ -17,10 +17,9 @@ interface DepartmentsState {
 
 export const useDepartmentsStore = create<DepartmentsState>((set) => ({
   departments: [
-    { id: 'd1', name: 'Vehicle Dynamics', description: 'Departamento de dinámica vehicular para sistemas de frenado, suspensión y dirección.' },
-    { id: 'd2', name: 'Engine', description: 'Departamento de motor y tren motriz para sistemas de motor, eléctrico y transmisión.' },
-    { id: 'd3', name: 'Aero', description: 'Departamento de aerodinámica para alas, alerones y componentes aerodinámicos del coche.' },
-    { id: 'd4', name: 'Chassis', description: 'Departamento de chasis y carrocería para estructuras, ensamblajes y acabados del vehículo.' },
+    { id: 'VD', name: 'Vehicle Dynamics', description: 'Departamento de dinámica vehicular...' },
+    { id: 'EN', name: 'Engine', description: 'Departamento de motor y tren motriz...' },
+    { id: 'CH/AE', name: 'Chassis & Aero', description: 'Departamento de chasis y aerodinámica...' },
   ],
   filteredDepartments: [],
   fetchDepartments: () => set((state) => ({ departments: state.departments, filteredDepartments: state.departments })),

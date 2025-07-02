@@ -30,9 +30,19 @@ export const usePiecesStore = create<PiecesState>((set, get) => ({
   },
   setFilter: (filter) => {
     const { pieces } = get();
+    if (!filter) {
+        // Si el filtro está vacío, usamos las piezas filtradas por departamento
+        const departmentFilteredPieces = get().filteredPieces;
+        set({ filteredPieces: departmentFilteredPieces });
+        return;
+    }
+    const lowerCaseFilter = filter.toLowerCase();
     set({
       filteredPieces: pieces.filter((piece) =>
-        piece.name.toLowerCase().includes(filter.toLowerCase())
+        // --- LÍNEA CLAVE CORREGIDA ---
+        // Ahora busca tanto en el nombre como en el código
+        piece.name.toLowerCase().includes(lowerCaseFilter) ||
+        piece.code.toLowerCase().includes(lowerCaseFilter)
       ),
     });
   },
