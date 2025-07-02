@@ -1,7 +1,6 @@
-// --- FICHERO: src/pages/Signup.tsx ---
 import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'; // No necesitas 'Link' aquí si no lo usas en el JSX
 import { useAuthStore } from '../store/auth.store';
 import { signupUser } from '../services/auth.service';
 
@@ -23,7 +22,13 @@ const Signup: React.FC = () => {
       setApiError(null);
       const response = await signupUser(data);
       loginToStore(response.user, response.token);
-      navigate('/pieces');
+
+      // --- LÓGICA DE REDIRECCIÓN INTELIGENTE ---
+      // Como es un registro, es la primera vez sí o sí, así que lo enviamos al selector.
+      localStorage.setItem('hasSeenAppSelector', 'true');
+      navigate('/select-app');
+      // -----------------------------------------
+
     } catch (error: any) {
       const message = error.response?.data?.message || 'Error durante el registro.';
       setApiError(message);
@@ -31,10 +36,8 @@ const Signup: React.FC = () => {
   };
 
   return (
-    // Estructura principal idéntica a Login.tsx
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
       <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-md">
-        {/* Encabezado idéntico a Login.tsx */}
         <div className="text-center mb-6">
             <img src="/logo.png" alt="FUEM Logo" className="mx-auto h-12 w-auto" />
             <h2 className="mt-4 text-2xl font-bold text-gray-800">Crear una Cuenta</h2>
@@ -42,7 +45,6 @@ const Signup: React.FC = () => {
         </div>
         
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          {/* Campos con clases idénticas a Login.tsx */}
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-700">Nombre Completo</label>
             <input
@@ -94,7 +96,6 @@ const Signup: React.FC = () => {
           </button>
         </form>
 
-        {/* Mensaje para Administradores con estilo mejorado */}
         <div className="mt-6 text-center text-sm text-gray-600">
             <p>¿Eres Administrador? <a href="mailto:admin@fuem.es" className="font-medium text-indigo-600 hover:text-indigo-500">Contacta para tus credenciales</a>.</p>
         </div>

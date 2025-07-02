@@ -1,30 +1,39 @@
-// --- FICHERO: src/pages/Login.tsx ---
 import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuthStore } from '../store/auth.store';
-import { loginUser } from '../services/auth.service'; // 1. Importamos el servicio real
+import { loginUser } from '../services/auth.service';
 
-// Esta interfaz no cambia
 interface LoginFormData {
   email: string;
   password: string;
 }
 
 const Login: React.FC = () => {
-  // 2. Traemos las herramientas necesarias
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<LoginFormData>();
   const navigate = useNavigate();
-  const { login: loginToStore } = useAuthStore(); // Renombramos para claridad
+  const { login: loginToStore } = useAuthStore();
   const [apiError, setApiError] = useState<string | null>(null);
 
-  // 3. La nueva función onSubmit que habla con el backend
+  // --- FUNCIÓN onSubmit CON LA LÓGICA DE REDIRECCIÓN INTELIGENTE ---
   const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
     try {
       setApiError(null); // Limpiamos errores previos
       const response = await loginUser(data); // Llamamos a nuestro servicio
       loginToStore(response.user, response.token); // Guardamos el usuario y el token
-      navigate('/pieces'); // Redirigimos al usuario a la página de piezas
+
+      // --- LÓGICA DE REDIRECCIÓN INTELIGENTE ---
+      const hasSeenSelector = localStorage.getItem('hasSeenAppSelector');
+      if (!hasSeenSelector) {
+        // Si es la primera vez, lo marcamos como visto y lo enviamos al selector
+        localStorage.setItem('hasSeenAppSelector', 'true');
+        navigate('/select-app');
+      } else {
+        // Si no, lo enviamos directamente a las piezas
+        navigate('/pieces');
+      }
+      // -----------------------------------------
+
     } catch (error: any) {
       // Si la API devuelve un error (ej: 401 Unauthorized), lo mostramos
       const message = error.response?.data?.message || 'Error al iniciar sesión. Inténtalo de nuevo.';
@@ -40,7 +49,6 @@ const Login: React.FC = () => {
             <h2 className="mt-4 text-2xl font-bold text-gray-800">Iniciar Sesión en FUEM</h2>
         </div>
         
-        {/* El JSX del formulario se mantiene, pero ahora se conecta a la nueva lógica */}
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">
@@ -74,7 +82,7 @@ const Login: React.FC = () => {
 
           <button
             type="submit"
-            disabled={isSubmitting} // Deshabilitamos el botón mientras se envía
+            disabled={isSubmitting}
             className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-indigo-300"
           >
             {isSubmitting ? 'Iniciando...' : 'Iniciar Sesión'}
