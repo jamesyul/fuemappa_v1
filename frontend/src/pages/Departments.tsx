@@ -8,10 +8,12 @@ import { getUsersByDepartment, deleteUser } from '../services/user.service';
 import { Dialog, Transition } from '@headlessui/react';
 
 const Departments: React.FC = () => {
-  const [newDepartment, setNewDepartment] = useState<Department>({ id: '', name: '', description: '' });
+  const [newDepartment, setNewDepartment] = useState({ name: '', description: '' });
+  //const [newDepartment, setNewDepartment] = useState<Department>({ id: '', name: '', description: '' });
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const { user } = useAuthStore();
-  const { departments, fetchDepartments, createDepartment, updateDepartment, deleteDepartment: deleteDept } = useDepartmentsStore();
+  const { departments, fetchDepartments, createDepartment, updateDepartment, deleteDepartment } = useDepartmentsStore();
+  //const { departments, fetchDepartments, createDepartment, updateDepartment, deleteDepartment: deleteDept } = useDepartmentsStore();
   const navigate = useNavigate();
 
   const [isUsersModalOpen, setIsUsersModalOpen] = useState(false);
@@ -24,7 +26,7 @@ const Departments: React.FC = () => {
     fetchDepartments();
   }, [user, navigate, fetchDepartments]);
   
-  const handleCreate = (e: React.FormEvent) => {
+  /*const handleCreate = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newDepartment.name || !newDepartment.description) return;
     createDepartment(newDepartment);
@@ -39,6 +41,40 @@ const Departments: React.FC = () => {
   const handleDeleteDept = (id: string) => {
     if (window.confirm('¿Estás seguro de eliminar este departamento?')) {
       deleteDept(id);
+    }
+  };*/
+   const handleCreate = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newDepartment.name) return;
+    try {
+        await createDepartment(newDepartment);
+        alert('Departamento creado con éxito');
+        setNewDepartment({ name: '', description: '' });
+        setIsCreateOpen(false);
+    } catch (error) {
+        alert('Error al crear el departamento.');
+    }
+  };
+
+  const handleUpdate = async (id: string) => {
+    const newName = prompt('Nuevo nombre:', departments.find(d => d.id === id)?.name);
+    if (!newName) return;
+    try {
+        await updateDepartment(id, { name: newName });
+        alert('Departamento actualizado.');
+    } catch (error) {
+        alert('Error al actualizar.');
+    }
+  };
+
+  const handleDeleteDept = async (id: string) => {
+    if (window.confirm('¿Seguro que quieres eliminar este departamento?')) {
+        try {
+            await deleteDepartment(id);
+            alert('Departamento eliminado.');
+        } catch (error) {
+            alert('Error al eliminar.');
+        }
     }
   };
 
