@@ -1,9 +1,13 @@
+// --- FICHERO: src/services/api.ts ---
 import axios from 'axios';
 import { useAuthStore } from '../store/auth.store';
 
-// En producción, Vercel proveerá esta variable. En local, no estará definida.
-// Usamos /api como fallback, que Vercel redirigirá correctamente.
+// Lógica inteligente para determinar la URL base de la API:
+// - En desarrollo (cuando `npm run dev`), usará la URL de tu .env local.
+// - En producción (en Vercel), usará una ruta relativa "/api".
 const API_URL = import.meta.env.VITE_API_URL || '/api';
+
+console.log(`API URL is set to: ${API_URL}`); // Un log útil para depuración
 
 const api = axios.create({
   baseURL: API_URL,
@@ -12,6 +16,7 @@ const api = axios.create({
   },
 });
 
+// El interceptor para añadir el token de sesión se mantiene igual
 api.interceptors.request.use(
   (config) => {
     const token = useAuthStore.getState().token;
