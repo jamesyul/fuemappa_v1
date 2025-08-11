@@ -68,6 +68,62 @@ export default app;
 */
 
 
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+
+// --- IMPORTACIÓN DE RUTAS ---
+// Importa todos los archivos de rutas que tu API necesita.
+import pieceRoutes from './routes/pieceRoutes.js';
+import authRoutes from './routes/authRoutes.js';
+import departmentRoutes from './routes/departmentRoutes.js';
+import analyzerRoutes from './routes/analyzerRoutes.js';
+import userRoutes from './routes/userRoutes.js';
+
+// Carga las variables de entorno desde tu archivo .env (crucial para Supabase y JWT).
+dotenv.config();
+
+const app = express();
+const port = process.env.PORT || 5000;
+
+// --- CONFIGURACIÓN DE MIDDLEWARE ---
+
+// Habilita CORS (Cross-Origin Resource Sharing).
+// Esto es esencial para permitir que tu frontend (corriendo en un dominio diferente)
+// pueda hacer peticiones a esta API de forma segura.
+app.use(cors());
+
+// Habilita el análisis de cuerpos de petición en formato JSON.
+// Esto permite que tu servidor entienda los datos enviados desde los formularios del frontend.
+app.use(express.json());
+
+
+// --- REGISTRO DE RUTAS DE LA API ---
+// Aquí le dices a tu aplicación Express cómo manejar las peticiones a diferentes endpoints.
+app.use('/api/pieces', pieceRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/departments', departmentRoutes);
+app.use('/api/analyzer', analyzerRoutes);
+app.use('/api/users', userRoutes);
+
+
+// --- ARRANQUE CONDICIONAL DEL SERVIDOR ---
+// La variable de entorno 'VERCEL' es establecida automáticamente por Vercel.
+// Este bloque `if` es la clave para que el mismo código funcione en todas partes:
+// - LOCALMENTE (`npm run dev`): `process.env.VERCEL` no existe, por lo que se ejecuta `app.listen`.
+// - EN VERCEL: `process.env.VERCEL` existe, por lo que este bloque se ignora.
+if (!process.env.VERCEL) {
+  app.listen(port, () => {
+    console.log(`✅ Server is running for local development on http://localhost:${port}`);
+  });
+}
+
+// --- EXPORTACIÓN PARA VERCEL ---
+// Esta es la línea que permite que Vercel tome tu aplicación Express
+// y la convierta en una función serverless. Es el punto de entrada para producción.
+export default app;
+
+
 
 
 
