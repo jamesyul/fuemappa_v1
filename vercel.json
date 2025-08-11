@@ -3,19 +3,7 @@
   "builds": [
     {
       "src": "backend/server.js",
-      "use": "@vercel/node",
-      "config": {
-        "installCommand": "npm --prefix backend install"
-      }
-    },
-    {
-      "src": "frontend/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "installCommand": "npm --prefix frontend install",
-        "buildCommand": "npm run build --prefix frontend",
-        "distDir": "frontend/dist"
-      }
+      "use": "@vercel/node"
     }
   ],
   "rewrites": [
