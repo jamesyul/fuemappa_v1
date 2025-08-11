@@ -20,11 +20,11 @@
   ],
   "rewrites": [
     {
-      "src": "/api/(.*)",
+      "source": "/api/(.*)",      // <-- CORRECCIÓN: 'src' cambiado a 'source'
       "destination": "/backend/server.js"
     },
     {
-      "source": "/(.*)",
+      "source": "/(.*)",           // <-- CORRECCIÓN: Aseguramos consistencia
       "destination": "/index.html"
     }
   ]
