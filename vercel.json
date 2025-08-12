@@ -1,6 +1,5 @@
 {
   "version": 2,
-  "installCommand": "npm run install-all",
   "builds": [
     {
       "src": "backend/server.js",
@@ -21,7 +20,7 @@
     },
     {
       "source": "/(.*)",
-      "destination": "frontend/dist/index.html"
+      "destination": "/index.html" 
     }
   ]
 }
