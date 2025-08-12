@@ -3,12 +3,11 @@
   "buildCommand": "cd frontend && npm run build",
   "outputDirectory": "frontend/dist",
   "installCommand": "npm run install-all",
-  "builds": [
-    {
-      "src": "backend/server.js",
-      "use": "@vercel/node"
+  "functions": {
+    "backend/server.js": {
+      "runtime": "@vercel/node@22"
     }
-  ],
+  },
   "rewrites": [
     {
       "source": "/api/(.*)",
