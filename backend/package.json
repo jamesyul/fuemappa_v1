@@ -2,11 +2,11 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "API for FUEM Racing Inventory",
-  "main": "server.js",
+  "main": "api/index.js",
   "type": "module",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js"
+    "start": "node api/index.js",
+    "dev": "nodemon api/index.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.0",
