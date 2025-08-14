@@ -42,6 +42,12 @@ app.use(cors(corsOptions));
 
 app.use(express.json());
 
+// Logger de Peticiones (puedes dejarlo o quitarlo, pero es útil)
+app.use((req, res, next) => {
+  console.log(`[VERCEL-DEBUG] Petición recibida: Método=${req.method}, URL=${req.originalUrl}`);
+  next();
+});
+
 // Rutas de la API
 /*app.use('/api/pieces', pieceRoutes);
 app.use('/api/auth', authRoutes);
@@ -54,7 +60,6 @@ app.use('/auth', authRoutes);
 app.use('/departments', departmentRoutes);
 app.use('/analyzer', analyzerRoutes);
 app.use('/users', userRoutes);
-
 // Ruta raíz
 app.get('/', (req, res) => { res.send('FUEM Racing Inventory API is running!'); });
 
