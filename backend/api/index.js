@@ -42,12 +42,12 @@ app.use(cors(corsOptions));
 
 app.use(express.json());
 
-// Rutas de la API (sin cambios)
-app.use('/pieces', pieceRoutes);
-app.use('/auth', authRoutes);
-app.use('/departments', departmentRoutes);
-app.use('/analyzer', analyzerRoutes);
-app.use('/users', userRoutes); // <-- AÑADIR
+// Rutas de la API
+app.use('/api/pieces', pieceRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/departments', departmentRoutes);
+app.use('/api/analyzer', analyzerRoutes);
+app.use('/api/users', userRoutes);
 
 // Ruta raíz
 app.get('/', (req, res) => { res.send('FUEM Racing Inventory API is running!'); });
