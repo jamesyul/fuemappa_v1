@@ -3,9 +3,10 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import pieceRoutes from '../routes/pieceRoutes.js';
 import authRoutes from '../routes/authRoutes.js';
-import departmentRoutes from '..routes/departmentRoutes.js';
+import departmentRoutes from '../routes/departmentRoutes.js';
 import analyzerRoutes from '../routes/analyzerRoutes.js';
-import userRoutes from '../routes/userRoutes.js'; // <-- AÑADIR
+import userRoutes from '../routes/userRoutes.js';
+
 
 dotenv.config();
 
