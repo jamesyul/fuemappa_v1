@@ -1,3 +1,4 @@
+/*
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -49,12 +50,6 @@ app.use((req, res, next) => {
 });
 
 // Rutas de la API
-/*app.use('/api/pieces', pieceRoutes);
-app.use('/api/auth', authRoutes);
-app.use('/api/departments', departmentRoutes);
-app.use('/api/analyzer', analyzerRoutes);
-app.use('/api/users', userRoutes);
-*/
 app.use('/pieces', pieceRoutes);
 app.use('/auth', authRoutes);
 app.use('/departments', departmentRoutes);
@@ -75,4 +70,43 @@ if (!process.env.VERCEL_ENV) {
 
 
 // Exporta la app para que Vercel la use como función serverless (sin cambios)
+export default app;
+
+*/
+
+
+import express from 'express';
+import cors from 'cors';
+
+const app = express();
+
+// Usamos una configuración de CORS abierta solo para esta prueba
+app.use(cors({ origin: true, credentials: true }));
+app.use(express.json());
+
+// Middleware de logging para ver TODO lo que llega
+app.use((req, res, next) => {
+  console.log(`[VERCEL-DEBUG] Petición recibida: Método=${req.method}, URL=${req.originalUrl}`);
+  next();
+});
+
+// --- ENDPOINTS DE PRUEBA ---
+
+// Test 1: La ruta SIN el prefijo /api
+app.post('/auth/login', (req, res) => {
+  console.log('[LOGIN TEST] ¡Éxito! La ruta /auth/login fue alcanzada.');
+  res.status(200).json({ message: 'ÉXITO: El endpoint /auth/login funciona.' });
+});
+
+// Test 2: La ruta CON el prefijo /api
+app.post('/api/auth/login', (req, res) => {
+  console.log('[LOGIN TEST] ¡Éxito! La ruta /api/auth/login fue alcanzada.');
+  res.status(200).json({ message: 'ÉXITO: El endpoint /api/auth/login funciona.' });
+});
+
+// Manejador genérico para ver si al menos llega a la raíz
+app.get('/api', (req, res) => {
+    res.status(200).send('La función API raíz está activa.');
+});
+
 export default app;
