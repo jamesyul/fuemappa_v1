@@ -1,11 +1,11 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import pieceRoutes from './routes/pieceRoutes.js';
-import authRoutes from './routes/authRoutes.js';
-import departmentRoutes from './routes/departmentRoutes.js';
-import analyzerRoutes from './routes/analyzerRoutes.js';
-import userRoutes from './routes/userRoutes.js'; // <-- AÑADIR
+import pieceRoutes from '../routes/pieceRoutes.js';
+import authRoutes from '../routes/authRoutes.js';
+import departmentRoutes from '..routes/departmentRoutes.js';
+import analyzerRoutes from '../routes/analyzerRoutes.js';
+import userRoutes from '../routes/userRoutes.js'; // <-- AÑADIR
 
 dotenv.config();
 
@@ -42,11 +42,11 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 // Rutas de la API (sin cambios)
-app.use('/api/pieces', pieceRoutes);
-app.use('/api/auth', authRoutes);
-app.use('/api/departments', departmentRoutes);
-app.use('/api/analyzer', analyzerRoutes);
-app.use('/api/users', userRoutes); // <-- AÑADIR
+app.use('/pieces', pieceRoutes);
+app.use('/auth', authRoutes);
+app.use('/departments', departmentRoutes);
+app.use('/analyzer', analyzerRoutes);
+app.use('/users', userRoutes); // <-- AÑADIR
 
 // Ruta raíz
 app.get('/', (req, res) => { res.send('FUEM Racing Inventory API is running!'); });
