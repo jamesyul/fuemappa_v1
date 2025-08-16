@@ -1,3 +1,4 @@
+// --- FICHERO: backend/server.js ---
 
 import express from 'express';
 import cors from 'cors';
@@ -8,107 +9,55 @@ import departmentRoutes from './routes/departmentRoutes.js';
 import analyzerRoutes from './routes/analyzerRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 
-
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 5000;
 
-// Configuración de CORS con depuración (tu código actual, que es excelente)
+// --- 1. CONFIGURACIÓN DE CORS LIMPIA Y ROBUSTA ---
+// Esta es la configuración ideal para producción y desarrollo.
 const whitelist = [
-  'http://localhost:5173',
-  process.env.FRONTEND_URL, 
+  'http://localhost:5173',      // Permitido para desarrollo local
+  process.env.FRONTEND_URL        // Permitido para el frontend en Vercel
 ];
-const corsOptions = {
-  origin: (origin, callback) => {
-    console.log("--- INICIANDO VERIFICACIÓN DE CORS ---");
-    console.log("Origen de la petición (origin):", origin);
-    console.log("Variable FRONTEND_URL en Vercel:", process.env.FRONTEND_URL);
-    console.log("Lista blanca (whitelist):", whitelist);
-    
-    const isAllowed = !origin || whitelist.includes(origin) || (origin && origin.endsWith('.vercel.app'));
-    
-    console.log("¿El origen está permitido?:", isAllowed);
-    console.log("--- FIN DE VERIFICACIÓN DE CORS ---");
 
-    if (isAllowed) {
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Permite peticiones sin 'origin' (como Postman) o si el origen está en la whitelist
+    if (!origin || whitelist.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
+      console.error(`CORS ERROR: El origen "${origin}" no está permitido.`);
       callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: true,
+  credentials: true, // Necesario para que el frontend envíe cookies o headers de autorización
 };
-app.use(cors(corsOptions));
 
+app.use(cors(corsOptions));
 app.use(express.json());
 
-// Logger de Peticiones (puedes dejarlo o quitarlo, pero es útil)
-app.use((req, res, next) => {
-  console.log(`[VERCEL-DEBUG] Petición recibida: Método=${req.method}, URL=${req.originalUrl}`);
-  next();
+
+// --- 2. LAS RUTAS DEBEN LLEVAR EL PREFIJO /api ---
+// Porque este es un servidor de API independiente.
+app.use('/api/pieces', pieceRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/departments', departmentRoutes);
+app.use('/api/analyzer', analyzerRoutes);
+app.use('/api/users', userRoutes);
+
+// Ruta raíz para verificar que la API está funcionando
+app.get('/api', (req, res) => {
+  res.send('FUEM Racing Inventory API is running!');
 });
 
-// Rutas de la API
-app.use('/pieces', pieceRoutes);
-app.use('/auth', authRoutes);
-app.use('/departments', departmentRoutes);
-app.use('/analyzer', analyzerRoutes);
-app.use('/users', userRoutes);
-// Ruta raíz
-app.get('/', (req, res) => { res.send('FUEM Racing Inventory API is running!'); });
 
-
-// --- AÑADIR ESTE BLOQUE AL FINAL (LA ÚNICA MODIFICACIÓN) ---
-// Este código solo se ejecutará cuando corres `npm run dev` y no en Vercel.
+// --- 3. CÓDIGO PARA EJECUTAR EN LOCAL (SIN CAMBIOS, ESTÁ PERFECTO) ---
 if (!process.env.VERCEL_ENV) {
   app.listen(port, () => {
     console.log(`✅ Server is running for local development on http://localhost:${port}`);
   });
 }
-// -----------------------------------------------------------------
 
-
-// Exporta la app para que Vercel la use como función serverless (sin cambios)
+// Exporta la app para que Vercel la use como función serverless
 export default app;
-
-
-/*
-
-import express from 'express';
-import cors from 'cors';
-
-const app = express();
-
-// Usamos una configuración de CORS abierta solo para esta prueba
-app.use(cors({ origin: true, credentials: true }));
-app.use(express.json());
-
-// Middleware de logging para ver TODO lo que llega
-app.use((req, res, next) => {
-  console.log(`[VERCEL-DEBUG] Petición recibida: Método=${req.method}, URL=${req.originalUrl}`);
-  next();
-});
-
-// --- ENDPOINTS DE PRUEBA ---
-
-// Test 1: La ruta SIN el prefijo /api
-app.post('/auth/login', (req, res) => {
-  console.log('[LOGIN TEST] ¡Éxito! La ruta /auth/login fue alcanzada.');
-  res.status(200).json({ message: 'ÉXITO: El endpoint /auth/login funciona.' });
-});
-
-// Test 2: La ruta CON el prefijo /api
-app.post('/api/auth/login', (req, res) => {
-  console.log('[LOGIN TEST] ¡Éxito! La ruta /api/auth/login fue alcanzada.');
-  res.status(200).json({ message: 'ÉXITO: El endpoint /api/auth/login funciona.' });
-});
-
-// Manejador genérico para ver si al menos llega a la raíz
-app.get('/api', (req, res) => {
-    res.status(200).send('La función API raíz está activa.');
-});
-
-export default app;
-
-*/
