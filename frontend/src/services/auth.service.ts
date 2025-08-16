@@ -13,17 +13,17 @@ interface SignupFormData {
 }
 
 export const loginUser = async (credentials: { email: string; password: string }): Promise<AuthResponse> => {
-  const { data } = await api.post<AuthResponse>('/auth/login', credentials);
+  const { data } = await api.post<AuthResponse>('/api/auth/login', credentials);
   return data;
 };
 export const signupUser = async (userData: SignupFormData): Promise<AuthResponse> => {
-  const { data } = await api.post<AuthResponse>('/auth/signup', userData);
+  const { data } = await api.post<AuthResponse>('/api/auth/signup', userData);
   return data;
 };
 
 // --- AÑADIR ESTA FUNCIÓN ---
 export const getProfile = async (): Promise<User> => {
-    const { data } = await api.get<User>('/auth/profile');
+    const { data } = await api.get<User>('/api/auth/profile');
     return data;
 };
 

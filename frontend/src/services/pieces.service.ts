@@ -3,21 +3,28 @@ import api from './api';
 import { Piece } from '../types/piece.types';
 
 export const getPieces = async (): Promise<Piece[]> => {
-  const { data } = await api.get('/pieces'); // No hace falta `select=*` aquí
+  // ANTES: '/pieces'
+  // DESPUÉS:
+  const { data } = await api.get('/api/pieces');
   return data;
 };
 
 export const createPiece = async (pieceData: Partial<Piece>): Promise<Piece> => {
-  const { data } = await api.post<Piece>('/pieces', pieceData);
+  // ANTES: '/pieces'
+  // DESPUÉS:
+  const { data } = await api.post<Piece>('/api/pieces', pieceData);
   return data;
 };
 
-// --- AÑADIR ESTAS FUNCIONES ---
 export const updatePiece = async (id: string, pieceData: Partial<Piece>): Promise<Piece> => {
-    const { data } = await api.put<Piece>(`/pieces/${id}`, pieceData);
-    return data;
+  // ANTES: `/pieces/${id}`
+  // DESPUÉS:
+  const { data } = await api.put<Piece>(`/api/pieces/${id}`, pieceData);
+  return data;
 };
 
 export const deletePiece = async (id: string): Promise<void> => {
-    await api.delete(`/pieces/${id}`);
+  // ANTES: `/pieces/${id}`
+  // DESPUÉS:
+  await api.delete(`/api/pieces/${id}`);
 };

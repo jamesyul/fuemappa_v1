@@ -1,22 +1,30 @@
-// --- FICHERO: src/services/departments.service.ts (CORREGIDO) ---
-import api from './api'; // Importamos nuestro cliente centralizado
+// --- FICHERO: src/services/departments.service.ts ---
+import api from './api';
 import { Department } from '../types/department.types';
 
 export const getDepartments = async (): Promise<Department[]> => {
-  const { data } = await api.get('/departments');
+  // ANTES: '/departments'
+  // DESPUÉS:
+  const { data } = await api.get('/api/departments');
   return data;
 };
 
 export const createDepartment = async (deptData: Partial<Department>): Promise<Department> => {
-  const { data } = await api.post('/departments', deptData);
+  // ANTES: '/departments'
+  // DESPUÉS:
+  const { data } = await api.post('/api/departments', deptData);
   return data;
 };
 
 export const updateDepartment = async (id: string, deptData: Partial<Department>): Promise<Department> => {
-  const { data } = await api.put(`/departments/${id}`, deptData);
+  // ANTES: `/departments/${id}`
+  // DESPUÉS:
+  const { data } = await api.put(`/api/departments/${id}`, deptData);
   return data;
 };
 
 export const deleteDepartment = async (id: string): Promise<void> => {
-  await api.delete(`/departments/${id}`);
+  // ANTES: `/departments/${id}`
+  // DESPUÉS:
+  await api.delete(`/api/departments/${id}`);
 };
