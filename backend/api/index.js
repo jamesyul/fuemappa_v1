@@ -1,4 +1,4 @@
-/*
+
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -72,8 +72,8 @@ if (!process.env.VERCEL_ENV) {
 // Exporta la app para que Vercel la use como función serverless (sin cambios)
 export default app;
 
-*/
 
+/*
 
 import express from 'express';
 import cors from 'cors';
@@ -110,3 +110,5 @@ app.get('/api', (req, res) => {
 });
 
 export default app;
+
+*/
