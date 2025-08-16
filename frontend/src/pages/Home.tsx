@@ -13,10 +13,10 @@ import 'swiper/css/effect-fade';
 
 // Lista de imágenes para el carrusel
 const carImages = [
-  '/cars/car-1.png',
-  '/cars/car-2.jpeg',
-  '/cars/car-3.png',
-  '/cars/car-4.png',
+  './public/cars/car-1.png',
+  './public/cars/car-2.jpeg',
+  './public/cars/car-3.png',
+  './public/cars/car-4.png',
 ];
 
 const Home: React.FC = () => {
