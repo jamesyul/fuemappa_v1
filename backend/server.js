@@ -50,10 +50,14 @@ app.use('/api/departments', departmentRoutes);
 app.use('/api/analyzer', analyzerRoutes);
 app.use('/api/users', userRoutes);
 
-// Ruta raíz (opcional, para que no dé 404)
+// Ruta raíz (redirecciona a /api)
 app.get('/', (req, res) => {
   res.redirect('/api');
-  res.send('FUEM Racing Inventory API is running!'); // Redirecciona a /api
+});
+
+// Ruta para verificar que la API está funcionando
+app.get('/api', (req, res) => {
+  res.send('FUEM Racing Inventory API is running!');
 });
 
 // --- 3. CÓDIGO PARA EJECUTAR EN LOCAL (SIN CAMBIOS, ESTÁ PERFECTO) ---
