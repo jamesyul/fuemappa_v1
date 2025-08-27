@@ -1,23 +1,24 @@
-// --- FICHERO: src/services/api.ts ---
+// --- FICHERO: src/services/api.ts (VERSIÓN FINAL Y CORRECTA) ---
 import axios from 'axios';
 import { useAuthStore } from '../store/auth.store';
 
-// Lógica inteligente para determinar la URL base de la API:
-// - En desarrollo: usa la variable de entorno local
-// - En producción: usa la variable de entorno de Vercel
-const API_URL = import.meta.env.VITE_API_URL || 'https://fuemappa-backend.vercel.app/api';
+// La baseURL ahora es SOLO el dominio del backend, que se lee de la variable de entorno.
+// En desarrollo local, esta variable estará vacía y axios usará rutas relativas (/api/...),
+// que serán interceptadas por el proxy de Vite.
+// En producción, Vercel le dará el valor completo del dominio del backend.
+const API_URL = import.meta.env.VITE_API_URL || ''; 
 
-console.log(`API URL is set to: ${API_URL}`); // Un log útil para depuración
+console.log(`API base URL is set to: ${API_URL}`);
 
 const api = axios.create({
-  baseURL: API_URL,
+  baseURL: API_URL, // <-- ¡YA NO CONTIENE /api!
   headers: {
     'Content-Type': 'application/json',
   },
-  withCredentials: true, // Importante para CORS con cookies/sessions
+  withCredentials: true,
 });
 
-// El interceptor para añadir el token de sesión se mantiene igual
+// El interceptor para el token se queda exactamente igual.
 api.interceptors.request.use(
   (config) => {
     const token = useAuthStore.getState().token;
