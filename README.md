@@ -1,126 +1,87 @@
-# Sistema de Inventario para FUEM Racing (Fuemappa_v1)
+# 🏁 Sistema de Inventario para FUEM Racing (Fuemappa_v1)
 
-¡Felicidades por tener tu proyecto totalmente desplegado!
+Un sistema de gestión de inventario robusto y seguro, diseñado para optimizar las operaciones del equipo de competición FUEM Racing.
 
-**Enlaces de Producción:**
-*   **Aplicación Frontend:** [fuemappa-frontend.vercel.app](https://fuemappa-frontend.vercel.app)
-*   **API Backend:** [fuemappa-backend.vercel.app/api](https://fuemappa-backend.vercel.app/api)
+[![Estado del Despliegue - Frontend](https://vercel.com/button)](https://fuemappa-frontend.vercel.app)
+[![Estado del Despliegue - Backend](https://vercel.com/button)](https://fuemappa-backend.vercel.app/api)
+
+**Visita la aplicación en vivo:** **[fuemappa-frontend.vercel.app](https://fuemappa-frontend.vercel.app)**
 
 ---
 
-## 📜 Descripción
+### Vista Previa de la Aplicación
 
-**Fuemappa_v1** es un sistema de gestión de inventario diseñado a medida para el equipo de competición **FUEM Racing**. La aplicación permite un control detallado de las piezas, organizadas por departamentos, con un sistema de autenticación robusto y roles de usuario para garantizar la seguridad y la integridad de los datos.
+![Vista Previa del Dashboard de Inventario](./.github/screenshots/dashboard.png)
 
-Este proyecto está construido como un monorepo, con un frontend moderno desarrollado en React y un backend robusto basado en Node.js, ambos desplegados de forma independiente en Vercel para un rendimiento y escalabilidad óptimos.
+## 📜 Descripción del Proyecto
+
+**Fuemappa_v1** es una solución full-stack que aborda la necesidad de un control de inventario preciso y accesible para un equipo de motorsport. La plataforma permite a los miembros del equipo gestionar piezas, consultar existencias y analizar datos, todo ello protegido por un sistema de roles y permisos que garantiza que cada usuario solo acceda a la información que le corresponde.
 
 ## ✨ Características Principales
 
-*   **Autenticación Segura:** Sistema de registro y login con tokens JWT.
-*   **Control de Acceso Basado en Roles (RBAC):**
-    *   `admin`: Control total sobre usuarios, departamentos y piezas.
-    *   `jefe_departamento`: Puede gestionar las piezas de su propio departamento.
-    *   `integrante_departamento`: Permisos de solo lectura.
-*   **Gestión de Inventario (CRUD):** Creación, lectura, actualización y eliminación de piezas.
-*   **Gestión de Departamentos (CRUD):** Administración completa de los departamentos del equipo.
-*   **Análisis de Datos:** Funcionalidad para procesar archivos `.csv` (desde Google Drive) para análisis y visualización de datos.
-*   **Búsqueda y Filtrado:** Búsqueda rápida de piezas por nombre o código.
+-   🔐 **Autenticación Segura:** Login y registro con tokens JWT.
+-   👤 **Control de Acceso por Roles (RBAC):** `admin`, `jefe_departamento` e `integrante_departamento` con permisos diferenciados.
+-   🔩 **Gestión de Inventario (CRUD):** Administración completa de piezas, incluyendo búsqueda y filtrado.
+-   🏢 **Gestión de Departamentos:** Creación y administración de los diferentes departamentos del equipo.
+-   📊 **Análisis de Datos:** Procesamiento de archivos `.csv` desde Google Drive para la visualización de datos.
 
-## 🚀 Stack Tecnológico
+## 💻 Stack Tecnológico
 
-### Frontend
+| Área      | Tecnología                                                                                                                              |
+| :-------- | :-------------------------------------------------------------------------------------------------------------------------------------- |
+| **Frontend**  | `React 19` `TypeScript` `Vite` `Zustand` `React Router` `Tailwind CSS` `Axios`                                                           |
+| **Backend**   | `Node.js` `Express.js` `JWT` `bcryptjs`                                                                                               |
+| **Base de Datos** | `Supabase` (PostgreSQL)                                                                                                                  |
+| **Despliegue**  | `Vercel` (con dos proyectos independientes apuntando a un monorepo)                                                                      |
 
-*   **Framework:** React 19 con Vite
-*   **Lenguaje:** TypeScript
-*   **Gestión de Estado:** Zustand
-*   **Enrutamiento:** React Router
-*   **Estilos:** Tailwind CSS
-*   **Peticiones HTTP:** Axios
+## 🖼️ Galería de Capturas de Pantalla
 
-### Backend
+<table>
+  <tr>
+    <td align="center"><strong>Página de Login</strong></td>
+    <td align="center"><strong>Dashboard Principal</strong></td>
+  </tr>
+  <tr>
+    <td><img src="./.github/screenshots/login.png" alt="Página de Login" width="400"/></td>
+    <td><img src="./.github/screenshots/inventario.png" alt="Dashboard con el inventario" width="400"/></td>
+  </tr>
+    <tr>
+    <td align="center"><strong>Formulario de Creación</strong></td>
+    <td align="center"><strong>Análisis de Datos</strong></td>
+  </tr>
+  <tr>
+    <td><img src="./.github/screenshots/formulario.png" alt="Formulario para crear una nueva pieza" width="400"/></td>
+    <td><img src="./.github/screenshots/analizador.png" alt="Página de análisis de datos con gráficos" width="400"/></td>
+  </tr>
+</table>
 
-*   **Runtime:** Node.js
-*   **Framework:** Express.js
-*   **Base de Datos y BaaS:** Supabase
-*   **Autenticación:** JSON Web Tokens (JWT) y bcryptjs
-*   **Módulos:** ES Modules (`"type": "module"`)
+## 🚀 Cómo Ejecutarlo Localmente
 
-## 🔧 Instalación y Ejecución Local
-
-Sigue estos pasos para levantar el proyecto en tu máquina local.
-
-### Prerrequisitos
-
-*   Node.js (versión 18.x o superior)
-*   npm (o tu gestor de paquetes preferido)
-*   Una cuenta en [Supabase](https://supabase.com/) para la base de datos.
-
-### Pasos
-
-1.  **Clona el repositorio:**
+1.  **Clonar el repositorio:**
     ```bash
     git clone https://github.com/jamesyul/fuemappa_v1.git
     cd fuemappa_v1
     ```
+2.  **Configurar variables de entorno:**
+    *   Crea `backend/.env` (ver [ejemplo](#-despliegue-en-vercel)).
+    *   Crea `frontend/.env.local` con `VITE_API_URL=http://localhost:5000`.
 
-2.  **Configura las Variables de Entorno:**
-    Necesitarás crear dos archivos `.env`: uno para el backend y otro para el frontend.
-
-    *   **Backend:** Crea un archivo `backend/.env` y añade tus claves.
-        ```ini
-        # backend/.env
-        SUPABASE_URL=https://<tu-id-de-proyecto>.supabase.co
-        SUPABASE_KEY=<tu-clave-service_role-de-supabase>
-        JWT_SECRET=<tu-clave-secreta-larga-y-aleatoria>
-        FRONTEND_URL=http://localhost:5173
-        ```
-
-    *   **Frontend:** Crea un archivo `frontend/.env.local` y añade la URL de tu API local.
-        ```ini
-        # frontend/.env.local
-        VITE_API_URL=http://localhost:5000
-        ```
-        *Nota: Al desplegar en Vercel, `VITE_API_URL` apuntará a la URL del backend de producción.*
-
-3.  **Instala todas las dependencias:**
-    Desde la raíz del proyecto, ejecuta el script personalizado que instala las dependencias de ambos directorios.
+3.  **Instalar dependencias:**
     ```bash
-    npm install # Opcional, para instalar 'concurrently' en la raíz
     npm run install-all
     ```
-
-4.  **Ejecuta el servidor de desarrollo:**
-    Este comando levantará el frontend y el backend simultáneamente.
+4.  **Iniciar los servidores de desarrollo:**
     ```bash
     npm run dev
     ```
-    *   El frontend estará disponible en `http://localhost:5173`.
-    *   El backend estará disponible en `http://localhost:5000`.
 
-## ☁️ Despliegue en Vercel
+## ☁️ Arquitectura de Despliegue
 
-Este proyecto utiliza una estrategia de despliegue de **dos proyectos separados en Vercel que apuntan a un único monorepo.**
+Este proyecto está desplegado en Vercel utilizando una estrategia de **dos proyectos independientes que apuntan al mismo monorepo**, garantizando el aislamiento y la escalabilidad de cada parte:
 
-### Proyecto 1: `fuemappa-frontend`
+-   **Proyecto Frontend (`fuemappa-frontend`):** Se despliega desde el directorio `/frontend` y se configura como un sitio estático de Vite.
+-   **Proyecto Backend (`fuemappa-backend`):** Se despliega desde el directorio `/backend` y se configura como una función serverless de Node.js.
 
-*   **Framework Preset:** `Vite`
-*   **Root Directory:** `frontend`
-*   **Build Command:** `npm run build`
-*   **Output Directory:** `dist`
-*   **Variables de Entorno:**
-    *   `VITE_API_URL`: `https://fuemappa-backend.vercel.app` (o la URL de tu backend desplegado)
-
-### Proyecto 2: `fuemappa-backend`
-
-*   **Framework Preset:** `Other` (con un `vercel.json` en su directorio)
-*   **Root Directory:** `backend`
-*   **Build & Development Settings:** No se usan overrides; la configuración se define en `backend/vercel.json`.
-*   **Variables de Entorno:**
-    *   `SUPABASE_URL`
-    *   `SUPABASE_KEY` (la clave `service_role`)
-    *   `JWT_SECRET`
-    *   `FRONTEND_URL`: `https://fuemappa-frontend.vercel.app`
+Esta arquitectura permite que ambos servicios se desarrollen en un único repositorio pero se desplieguen y escalen de forma independiente.
 
 ---
-
-¡Gracias por revisar el proyecto!
