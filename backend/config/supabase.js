@@ -1,14 +1,15 @@
-// --- FICHERO: backend/config/supabase.js ---
-import { createClient } from '@supabase/supabase-js';
-import dotenv from 'dotenv';
+// --- FICHERO: backend/config/supabase.js (VERSIÓN FINAL Y CORRECTA) ---
 
-dotenv.config();
+import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_KEY;
 
+// Esta validación es buena, pero incluso si la quitaras, funcionaría.
+// La dejamos porque es una buena práctica.
 if (!supabaseUrl || !supabaseKey) {
-  throw new Error("Supabase URL and Key must be defined in .env file");
+  // En Vercel, si las variables no están, el build fallará antes de llegar aquí.
+  throw new Error("Supabase URL and Key are not available in the environment variables.");
 }
 
 export const supabase = createClient(supabaseUrl, supabaseKey);
