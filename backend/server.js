@@ -52,6 +52,7 @@ app.use('/api/users', userRoutes);
 
 // Ruta raíz para verificar que la API está funcionando
 app.get('/api', (req, res) => {
+  res.redirect('/api');
   res.send('FUEM Racing Inventory API is running!');
 });
 
