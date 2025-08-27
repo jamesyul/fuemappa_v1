@@ -11,7 +11,7 @@ Un sistema de gestión de inventario robusto y seguro, diseñado para optimizar 
 
 ### Vista Previa de la Aplicación
 
-![Vista Previa del Dashboard de Inventario](./.github/screenshots/dashboard.png)
+![Vista Previa del Dashboard de Inventario](./screenshots/dashboard.png)
 
 ## 📜 Descripción del Proyecto
 
@@ -42,16 +42,16 @@ Un sistema de gestión de inventario robusto y seguro, diseñado para optimizar 
     <td align="center"><strong>Dashboard Principal</strong></td>
   </tr>
   <tr>
-    <td><img src="./.github/screenshots/login.png" alt="Página de Login" width="400"/></td>
-    <td><img src="./.github/screenshots/inventario.png" alt="Dashboard con el inventario" width="400"/></td>
+    <td><img src="./screenshots/login.png" alt="Página de Login" width="400"/></td>
+    <td><img src="./screenshots/pieces.png" alt="Dashboard con el inventario de piezas" width="400"/></td>
   </tr>
     <tr>
     <td align="center"><strong>Formulario de Creación</strong></td>
     <td align="center"><strong>Análisis de Datos</strong></td>
   </tr>
   <tr>
-    <td><img src="./.github/screenshots/formulario.png" alt="Formulario para crear una nueva pieza" width="400"/></td>
-    <td><img src="./.github/screenshots/analizador.png" alt="Página de análisis de datos con gráficos" width="400"/></td>
+    <td><img src="./screenshots/register.png" alt="Formulario del registro" width="400"/></td>
+    <td><img src="./screenshots/analyzer.png" alt="Página de análisis de datos con gráficos" width="400"/></td>
   </tr>
 </table>
 
