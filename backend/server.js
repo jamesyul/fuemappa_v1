@@ -18,7 +18,10 @@ const port = process.env.PORT || 5000;
 // Esta es la configuración ideal para producción y desarrollo.
 const whitelist = [
   'http://localhost:5173',      // Permitido para desarrollo local
-  process.env.FRONTEND_URL        // Permitido para el frontend en Vercel
+  'http://localhost:3000',      // React dev server
+  'https://fuemappa-frontend.vercel.app', // Tu dominio personalizado de frontend
+  'https://fuemappa-frontend-73facv0b7-jamesyuls-projects.vercel.app', // Dominio de deployment actual
+  process.env.FRONTEND_URL        // Variable de entorno (ya configurada correctamente)
 ];
 
 const corsOptions = {
@@ -32,11 +35,12 @@ const corsOptions = {
     }
   },
   credentials: true, // Necesario para que el frontend envíe cookies o headers de autorización
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 };
 
 app.use(cors(corsOptions));
 app.use(express.json());
-
 
 // --- 2. LAS RUTAS DEBEN LLEVAR EL PREFIJO /api ---
 // Porque este es un servidor de API independiente.
@@ -50,7 +54,6 @@ app.use('/api/users', userRoutes);
 app.get('/api', (req, res) => {
   res.send('FUEM Racing Inventory API is running!');
 });
-
 
 // --- 3. CÓDIGO PARA EJECUTAR EN LOCAL (SIN CAMBIOS, ESTÁ PERFECTO) ---
 if (!process.env.VERCEL_ENV) {

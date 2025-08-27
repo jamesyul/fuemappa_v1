@@ -3,9 +3,9 @@ import axios from 'axios';
 import { useAuthStore } from '../store/auth.store';
 
 // Lógica inteligente para determinar la URL base de la API:
-// - En desarrollo (cuando `npm run dev`), usará la URL de tu .env local.
-// - En producción (en Vercel), usará una ruta relativa "/api".
-const API_URL = import.meta.env.VITE_API_URL || '/api';
+// - En desarrollo: usa la variable de entorno local
+// - En producción: usa la variable de entorno de Vercel
+const API_URL = import.meta.env.VITE_API_URL || 'https://fuemappa-backend.vercel.app/api';
 
 console.log(`API URL is set to: ${API_URL}`); // Un log útil para depuración
 
@@ -14,6 +14,7 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: true, // Importante para CORS con cookies/sessions
 });
 
 // El interceptor para añadir el token de sesión se mantiene igual
