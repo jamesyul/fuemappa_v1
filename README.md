@@ -19,7 +19,7 @@ La filosofía es clara: **una sola plataforma, múltiples soluciones**. Cada apl
 
 <img width="1904" height="868" alt="Captura de pantalla 2025-08-28 174123" src="https://github.com/user-attachments/assets/d39e63b4-2956-48ac-b5c4-6b864e58f957" />
 
-<img width="1885" height="930" alt="Captura de pantalla 2025-08-28 171808" src="https://github.com/user-attachments/assets/d57d1eef-3b56-4b50-bc04-a53dda924fd6" />
+<img width="1899" height="938" alt="Captura de pantalla 2025-08-28 171808" src="https://github.com/user-attachments/assets/98f7fc2d-b76f-4caa-a42b-02f9c045733d" />
 
 ---
 
