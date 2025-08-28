@@ -47,49 +47,23 @@ const Home: React.FC = () => {
 
         <div className="absolute inset-0 bg-black bg-opacity-40 z-20"></div>
 
-        <div className="absolute inset-0 z-30 flex flex-col items-center justify-center text-center text-white p-4">
-          <h1 className="text-5xl md:text-6xl font-extrabold mb-4" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
-            FUEM Racing Team: La Fórmula de la Victoria
-          </h1>
-          <p className="text-xl md:text-2xl text-gray-200 mb-8 max-w-3xl mx-auto" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
-            Construimos coches de Fórmula 1 desde cero, competimos con universidades globales y buscamos talento e innovación. ¡Acelera con nosotros!
-          </p>
+        <div className="absolute inset-0 z-30 flex flex-col items-center justify-center text-center text-white p-4 gap-16">
+          <h1 className="text-5xl md:text-6xl font-extrabold mb-4" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>FUEM App Store Team</h1>
+
+            <div className="text-2xl md:text-3xl text-gray-200 mb-10 max-w-4xl mx-auto" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
+              Bienvenido a la App Store oficial de Formula UEM. Aquí encontrarás una gran variedad de aplicaciones que te ayudarán en tu trabajo. Sientete libre de proponer nuevas aplicaciones y mejoras.
+            </div>
+
+            <img src="/logo.png" alt="FUEM Logo" className="h-28 w-auto" />
+
           <div className="space-x-4">
-            <Link
-              to="/signup"
-              className="bg-white text-black px-8 py-3 rounded-md text-lg font-semibold hover:bg-gray-200 transition-transform transform hover:scale-105"
-            >
-              Únete al equipo
-            </Link>
-            <Link
-              to="/contact"
-              className="border-2 border-white text-white px-8 py-3 rounded-md text-lg font-semibold hover:bg-white hover:text-black transition-all"
-            >
-              Contacta con nosotros
+            <Link to="/contact" className="border-2 border-white text-white px-8 py-3 rounded-md text-lg font-semibold hover:bg-white hover:text-black transition-all">
+              Necesitas ayuda  /  Tienes alguna sugerencia
             </Link>
           </div>
         </div>
       </div>
 
-      {/* --- SECCIÓN DE PATROCINADORES Y TESTIMONIO (AHORA VISIBLE) --- */}
-      <div className="bg-gray-100 py-20 w-full">
-        <div className="flex justify-center items-center space-x-8 mb-12 flex-wrap">
-            <img src="/coca-cola-logo.png" alt="Coca-Cola" className="h-10 w-auto m-4"/>
-            <img src="/flatfile-logo.png" alt="Flatfile" className="h-10 w-auto m-4"/>
-            <img src="/modal-logo.png" alt="Modal" className="h-10 w-auto m-4"/>
-            <img src="/usv-square-ventures-logo.png" alt="USV Square Ventures" className="h-10 w-auto m-4"/>
-            <img src="/replicate-logo.png" alt="Replicate" className="h-10 w-auto m-4"/>
-            <img src="/bravado-logo.png" alt="Bravado" className="h-10 w-auto m-4"/>
-        </div>
-        <div className="text-center max-w-2xl mx-auto px-4">
-          <blockquote className="text-2xl font-medium text-gray-500 italic mb-4">
-            “Cuando vi por primera vez a FUEM Racing Team, supe que estaban llevando la ingeniería y la competición al siguiente nivel.”
-          </blockquote>
-          <p className="text-lg font-semibold text-gray-700">
-            Juan Pérez - Director de Innovación - Universidad Europea de Madrid
-          </p>
-        </div>
-      </div>
     </div>
   );
 };

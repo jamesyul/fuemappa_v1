@@ -23,7 +23,7 @@ const Contact: React.FC = () => {
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-900">Contacta con Nosotros</h1>
           <p className="text-gray-600 mt-2">
-            ¿Tienes alguna pregunta, sugerencia o quieres patrocinarnos? ¡Nos encantaría saber de ti!
+            ¿Tienes alguna pregunta o sugerencia? ¡Contactamos!
           </p>
         </div>
 
