@@ -19,7 +19,7 @@ const Navbar: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex-shrink-0 flex items-center space-x-3">
-            <Link to="/" className="flex items-center space-x-2">
+            <Link to="/select-app" className="flex items-center space-x-2">
               <img src="/logo.png" alt="FUEM Logo" className="h-9 w-auto" />
               <span className="text-gray-900 text-xl font-bold hidden sm:block">FUEM</span>
             </Link>
