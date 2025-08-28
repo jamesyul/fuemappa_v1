@@ -108,10 +108,10 @@ const SearchBar: React.FC = () => {
                   
                   {step === 'initial' && (
                     <div>
-                      <h4 className="text-md font-semibold mb-2">¿Qué problema, pieza o síntoma buscas? (en español o inglés)</h4>
+                      <h4 className="text-md font-semibold mb-2">¿A qué departamento pertenece?</h4>
                       <input
                         type="text" value={initialInput} onChange={handleInput}
-                        placeholder="Ej: 'ruido al frenar', 'brake noise', 'steering wheel'"
+                        placeholder="Ej: 'Powertrain', 'Dynamics', 'Chasis'"
                         className="w-full px-3 py-2 border rounded-md mb-4"
                       />
                       <button onClick={handleNext} className="w-full bg-indigo-600 text-white p-2 rounded-md">Buscar</button>

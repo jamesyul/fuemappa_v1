@@ -32,7 +32,13 @@ const AppSelector: React.FC = () => {
         <AppCard
           to="/pieces"
           imgSrc="/csv_data_plotter_app_icon.png"
-          title="CodeAssembler"
+          title="Code Assembler"
+          description="Aplicación para gestionar y rastrear sistemas y ensamblajes de piezas."
+        />
+        <AppCard
+          to="/pieces"
+          imgSrc="/department_app_icon.png"
+          title="Department Manager"
           description="Aplicación para gestionar y rastrear sistemas y ensamblajes de piezas."
         />
       </div>

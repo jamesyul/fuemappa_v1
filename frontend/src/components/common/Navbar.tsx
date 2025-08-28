@@ -29,12 +29,12 @@ const Navbar: React.FC = () => {
             {user ? (
               <>
                 <Link to="/pieces" className="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
-                  CodeAssembler
+                  Code Assembler
                 </Link>
                 
                 {user.role === 'admin' && (
                   <Link to="/departments" className="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
-                    Departamentos
+                    Department Manager
                   </Link>
                 )}
 
