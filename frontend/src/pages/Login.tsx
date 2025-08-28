@@ -22,8 +22,13 @@ const Login: React.FC = () => {
       const response = await loginUser(data); // Llamamos a nuestro servicio
       loginToStore(response.user, response.token); // Guardamos el usuario y el token
 
+      // --- LÓGICA DE REDIRECCIÓN ---
+      // Después de un login exitoso, siempre redirigimos al selector de aplicaciones.
+      navigate('/select-app', { replace: true });
+      // -----------------------------------------
+
       // --- LÓGICA DE REDIRECCIÓN INTELIGENTE ---
-      const hasSeenSelector = localStorage.getItem('hasSeenAppSelector');
+      /*const hasSeenSelector = localStorage.getItem('hasSeenAppSelector');
       if (!hasSeenSelector) {
         // Si es la primera vez, lo marcamos como visto y lo enviamos al selector
         localStorage.setItem('hasSeenAppSelector', 'true');
@@ -31,7 +36,7 @@ const Login: React.FC = () => {
       } else {
         // Si no, lo enviamos directamente a las piezas
         navigate('/pieces');
-      }
+      }*/
       // -----------------------------------------
 
     } catch (error: any) {
