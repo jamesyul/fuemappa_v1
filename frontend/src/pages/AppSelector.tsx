@@ -19,7 +19,7 @@ const AppSelector: React.FC = () => {
     <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-6">
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold text-gray-900">Centro de Software</h1>
-        <p className="text-gray-500 mt-2">Selecciona una aplicación para comenzar.</p>
+        <p className="text-gray-500 mt-2">Selecciona la aplicación que desees utilizar.</p>
       </div>
 
       <div className="flex flex-wrap items-center justify-center gap-10">
@@ -36,8 +36,8 @@ const AppSelector: React.FC = () => {
           description="Aplicación para gestionar y rastrear sistemas y ensamblajes de piezas."
         />
         <AppCard
-          to="/pieces"
-          imgSrc="/department_app_icon.png"
+          to="/departments"
+          imgSrc="/department_manager_app_icon.png"
           title="Department Manager"
           description="Aplicación para gestionar y rastrear sistemas y ensamblajes de piezas."
         />
