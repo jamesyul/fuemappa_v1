@@ -163,7 +163,6 @@ const Pieces: React.FC = () => {
                     Filtro Avanzado
                 </button>
             </div>
-            </div>
             <div className="bg-white rounded-lg shadow-md overflow-x-auto">
                 <table className="w-full">
                     <thead className="bg-gray-50">
