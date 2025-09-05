@@ -74,6 +74,16 @@ const Pieces: React.FC = () => {
     const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
     const [filters, setFilters] = useState({ departmentId: '', inStock: '' });
 
+    // --- CORRECCIÓN CLAVE: El estado para la nueva pieza se define aquí ---
+    const [newPieceData, setNewPieceData] = useState<Partial<Piece>>({
+        code: '',
+        name: '',
+        departmentId: user?.role === 'jefe_departamento' ? user.departmentId : '',
+        quantity: 0,
+        price: 0,
+        report: ''
+    });
+
     useEffect(() => {
         if (user) {
             fetchPieces();
@@ -158,7 +168,6 @@ const Pieces: React.FC = () => {
             </div>
             <div className="mb-4 flex space-x-4">
                 <input type="text" value={searchTerm} onChange={handleSearch} placeholder="Buscar piezas..." className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 w-full max-w-md"/>
-                {/* --- BOTÓN DE FILTRO AHORA FUNCIONAL --- */}
                 <button onClick={() => setIsFilterModalOpen(true)} className="bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300">
                     Filtro Avanzado
                 </button>
@@ -210,10 +219,28 @@ const Pieces: React.FC = () => {
                 </table>
             </div>
 
-            <Transition appear show={isCreateOpen} as={Fragment}><Dialog as="div" className="relative z-10" onClose={() => setIsCreateOpen(false)}><Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0" enterTo="opacity-100" leave="ease-in duration-200" leaveFrom="opacity-100" leaveTo="opacity-0"><div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm" /></Transition.Child><div className="fixed inset-0 overflow-y-auto"><div className="flex min-h-full items-center justify-center p-4 text-center"><Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0 scale-95" enterTo="opacity-100 scale-100" leave="ease-in duration-200" leaveFrom="opacity-100 scale-100" leaveTo="opacity-0 scale-95"><Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"><Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">Crear Nueva Pieza</Dialog.Title><PieceForm piece={newPiece} onSubmit={handleCreatePiece} allPieces={pieces} /></Dialog.Panel></Transition.Child></div></div></Dialog></Transition>
+            <Transition appear show={isCreateOpen} as={Fragment}>
+                <Dialog as="div" className="relative z-10" onClose={() => setIsCreateOpen(false)}>
+                    <Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0" enterTo="opacity-100" leave="ease-in duration-200" leaveFrom="opacity-100" leaveTo="opacity-0">
+                        <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm" />
+                    </Transition.Child>
+                    <div className="fixed inset-0 overflow-y-auto">
+                        <div className="flex min-h-full items-center justify-center p-4 text-center">
+                            <Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0 scale-95" enterTo="opacity-100 scale-100" leave="ease-in duration-200" leaveFrom="opacity-100 scale-100" leaveTo="opacity-0 scale-95">
+                                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                                    <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">Crear Nueva Pieza</Dialog.Title>
+                                    <PieceForm piece={newPieceData} onSubmit={handleCreatePiece} allPieces={pieces} />
+                                </Dialog.Panel>
+                            </Transition.Child>
+                        </div>
+                    </div>
+                </Dialog>
+            </Transition>
+
             {editPiece && (<Transition appear show={isEditOpen} as={Fragment}><Dialog as="div" className="relative z-10" onClose={() => setIsEditOpen(false)}><Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0" enterTo="opacity-100" leave="ease-in duration-200" leaveFrom="opacity-100" leaveTo="opacity-0"><div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm" /></Transition.Child><div className="fixed inset-0 overflow-y-auto"><div className="flex min-h-full items-center justify-center p-4 text-center"><Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0 scale-95" enterTo="opacity-100 scale-100" leave="ease-in duration-200" leaveFrom="opacity-100 scale-100" leaveTo="opacity-0 scale-95"><Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"><Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">Editar Pieza</Dialog.Title><PieceForm piece={editPiece} onSubmit={handleEditPiece} allPieces={pieces}/></Dialog.Panel></Transition.Child></div></div></Dialog></Transition>)}
             {selectedPiece && (<Transition appear show={isReportOpen} as={Fragment}><Dialog as="div" className="relative z-10" onClose={() => setIsReportOpen(false)}><Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0" enterTo="opacity-100" leave="ease-in duration-200" leaveFrom="opacity-100" leaveTo="opacity-0"><div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm" /></Transition.Child><div className="fixed inset-0 overflow-y-auto"><div className="flex min-h-full items-center justify-center p-4 text-center"><Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0 scale-95" enterTo="opacity-100 scale-100" leave="ease-in duration-200" leaveFrom="opacity-100 scale-100" leaveTo="opacity-0 scale-95"><Dialog.Panel className="w-full max-w-lg transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"><Dialog.Title as="h3" className="text-lg font-bold leading-6 text-gray-900">Detalles de la Pieza: {selectedPiece.name}</Dialog.Title><div className="mt-4 space-y-4"><div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm"><div><strong>Código:</strong> <span className="text-gray-700">{selectedPiece.code}</span></div><div><strong>Departamento:</strong> <span className="text-gray-700">{selectedPiece.departmentName}</span></div><div><strong>Cantidad:</strong> <span className="text-gray-700">{selectedPiece.quantity}</span></div><div><strong>Precio:</strong> <span className="text-gray-700">€{selectedPiece.price.toLocaleString()}</span></div></div><div className="bg-gray-50 p-4 rounded-md border"><h4 className="font-semibold text-gray-700 mb-2">Informe Adjunto:</h4><ReportDisplay report={selectedPiece.report} /></div></div><div className="mt-6 text-right"><button type="button" onClick={() => setIsReportOpen(false)} className="inline-flex justify-center rounded-md border border-transparent bg-indigo-100 px-4 py-2 text-sm font-medium text-indigo-900 hover:bg-indigo-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">Cerrar</button></div></Dialog.Panel></Transition.Child></div></div></Dialog></Transition>)}
 
+            {/* --- NUEVO MODAL PARA FILTROS AVANZADOS --- */}
             <Transition appear show={isFilterModalOpen} as={Fragment}>
                 <Dialog as="div" className="relative z-50" onClose={() => setIsFilterModalOpen(false)}>
                     <Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0" enterTo="opacity-100" leave="ease-in duration-200" leaveFrom="opacity-100" leaveTo="opacity-0">
@@ -236,7 +263,7 @@ const Pieces: React.FC = () => {
                                             <label htmlFor="inStock" className="block text-sm font-medium text-gray-700">Disponibilidad</label>
                                             <select name="inStock" value={filters.inStock} onChange={handleFilterChange} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                                                 <option value="">Cualquiera</option>
-                                                <option value="yes">En Stock (&gt; 0)</option>
+                                                <option value="yes">En Stock (> 0)</option>
                                                 <option value="no">Sin Stock (0)</option>
                                             </select>
                                         </div>
