@@ -263,7 +263,7 @@ const Pieces: React.FC = () => {
                                             <label htmlFor="inStock" className="block text-sm font-medium text-gray-700">Disponibilidad</label>
                                             <select name="inStock" value={filters.inStock} onChange={handleFilterChange} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                                                 <option value="">Cualquiera</option>
-                                                <option value="yes">En Stock (> 0)</option>
+                                                <option value="yes">En Stock (&gt; 0)</option>
                                                 <option value="no">Sin Stock (0)</option>
                                             </select>
                                         </div>
