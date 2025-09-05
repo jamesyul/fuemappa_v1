@@ -2,6 +2,7 @@ import React, { useEffect, useState, Fragment } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/auth.store';
 import { usePiecesStore } from '../store/pieces.store';
+import { useDepartmentsStore } from '../store/departments.store'; // Importamos el store de departamentos
 import { Piece } from '../types/piece.types';
 import { FaEllipsisV, FaFilePdf, FaExternalLinkAlt } from 'react-icons/fa';
 import { Dialog, Transition, Menu } from '@headlessui/react';
@@ -57,40 +58,49 @@ const getDepartmentNameFromId = (departmentId: string | undefined): string => {
 
 const Pieces: React.FC = () => {
     const { user } = useAuthStore();
-    const { pieces, filteredPieces, fetchPieces, setFilter } = usePiecesStore();
-    const setDepartmentFilter = usePiecesStore(state => state.setDepartmentFilter);
+    // Usamos las nuevas funciones del store
+    const { filteredPieces, fetchPieces, setFilter, applyAdvancedFilters } = usePiecesStore();
+    const { departments, fetchDepartments } = useDepartmentsStore(); // Para el select del modal
     const navigate = useNavigate();
+    
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [selectedPiece, setSelectedPiece] = useState<Piece | null>(null);
     const [isReportOpen, setIsReportOpen] = useState(false);
     const [isCreateOpen, setIsCreateOpen] = useState(false);
     const [isEditOpen, setIsEditOpen] = useState(false);
-    const [newPiece, setNewPiece] = useState<Piece>({ id: '', code: '', name: '', departmentId: user?.departmentId || '', quantity: 0, price: 0, report: '', departmentName: getDepartmentNameFromId(user?.departmentId), departament: '', });
     const [editPiece, setEditPiece] = useState<Piece | null>(null);
+
+    // Estado para el modal de filtros
+    const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+    const [filters, setFilters] = useState({ departmentId: '', inStock: '' });
 
     useEffect(() => {
         if (user) {
             fetchPieces();
+            fetchDepartments(); // Cargamos los departamentos para el filtro
         } else {
             navigate('/login');
         }
-    }, [user, navigate, fetchPieces]);
-
-    useEffect(() => {
-        if (user && pieces.length > 0) {
-            if (user.role === 'admin') {
-                setDepartmentFilter('');
-            } else if (user.role === 'jefe_departamento' || user.role === 'integrante_departamento') {
-                if (user.departmentId) {
-                    setDepartmentFilter(user.departmentId);
-                }
-            }
-        }
-    }, [user, pieces, setDepartmentFilter]);
+    }, [user, navigate, fetchPieces, fetchDepartments]);
 
     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.target.value);
         setFilter(e.target.value);
+    };
+
+    const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setFilters({ ...filters, [e.target.name]: e.target.value });
+    };
+
+    const handleApplyFilters = () => {
+        applyAdvancedFilters(filters);
+        setIsFilterModalOpen(false);
+    };
+    
+    const handleClearFilters = () => {
+        setFilters({ departmentId: '', inStock: '' });
+        fetchPieces(); // Recarga todas las piezas sin filtros
+        setIsFilterModalOpen(false);
     };
 
     const canEditDelete = user?.role === 'admin' || user?.role === 'jefe_departamento';
@@ -148,7 +158,11 @@ const Pieces: React.FC = () => {
             </div>
             <div className="mb-4 flex space-x-4">
                 <input type="text" value={searchTerm} onChange={handleSearch} placeholder="Buscar piezas..." className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 w-full max-w-md"/>
-                <button onClick={() => alert('Filtro avanzado no implementado aún')} className="bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300">Filtro Avanzado</button>
+                {/* --- BOTÓN DE FILTRO AHORA FUNCIONAL --- */}
+                <button onClick={() => setIsFilterModalOpen(true)} className="bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300">
+                    Filtro Avanzado
+                </button>
+            </div>
             </div>
             <div className="bg-white rounded-lg shadow-md overflow-x-auto">
                 <table className="w-full">
@@ -200,6 +214,44 @@ const Pieces: React.FC = () => {
             <Transition appear show={isCreateOpen} as={Fragment}><Dialog as="div" className="relative z-10" onClose={() => setIsCreateOpen(false)}><Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0" enterTo="opacity-100" leave="ease-in duration-200" leaveFrom="opacity-100" leaveTo="opacity-0"><div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm" /></Transition.Child><div className="fixed inset-0 overflow-y-auto"><div className="flex min-h-full items-center justify-center p-4 text-center"><Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0 scale-95" enterTo="opacity-100 scale-100" leave="ease-in duration-200" leaveFrom="opacity-100 scale-100" leaveTo="opacity-0 scale-95"><Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"><Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">Crear Nueva Pieza</Dialog.Title><PieceForm piece={newPiece} onSubmit={handleCreatePiece} allPieces={pieces} /></Dialog.Panel></Transition.Child></div></div></Dialog></Transition>
             {editPiece && (<Transition appear show={isEditOpen} as={Fragment}><Dialog as="div" className="relative z-10" onClose={() => setIsEditOpen(false)}><Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0" enterTo="opacity-100" leave="ease-in duration-200" leaveFrom="opacity-100" leaveTo="opacity-0"><div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm" /></Transition.Child><div className="fixed inset-0 overflow-y-auto"><div className="flex min-h-full items-center justify-center p-4 text-center"><Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0 scale-95" enterTo="opacity-100 scale-100" leave="ease-in duration-200" leaveFrom="opacity-100 scale-100" leaveTo="opacity-0 scale-95"><Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"><Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">Editar Pieza</Dialog.Title><PieceForm piece={editPiece} onSubmit={handleEditPiece} allPieces={pieces}/></Dialog.Panel></Transition.Child></div></div></Dialog></Transition>)}
             {selectedPiece && (<Transition appear show={isReportOpen} as={Fragment}><Dialog as="div" className="relative z-10" onClose={() => setIsReportOpen(false)}><Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0" enterTo="opacity-100" leave="ease-in duration-200" leaveFrom="opacity-100" leaveTo="opacity-0"><div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm" /></Transition.Child><div className="fixed inset-0 overflow-y-auto"><div className="flex min-h-full items-center justify-center p-4 text-center"><Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0 scale-95" enterTo="opacity-100 scale-100" leave="ease-in duration-200" leaveFrom="opacity-100 scale-100" leaveTo="opacity-0 scale-95"><Dialog.Panel className="w-full max-w-lg transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"><Dialog.Title as="h3" className="text-lg font-bold leading-6 text-gray-900">Detalles de la Pieza: {selectedPiece.name}</Dialog.Title><div className="mt-4 space-y-4"><div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm"><div><strong>Código:</strong> <span className="text-gray-700">{selectedPiece.code}</span></div><div><strong>Departamento:</strong> <span className="text-gray-700">{selectedPiece.departmentName}</span></div><div><strong>Cantidad:</strong> <span className="text-gray-700">{selectedPiece.quantity}</span></div><div><strong>Precio:</strong> <span className="text-gray-700">€{selectedPiece.price.toLocaleString()}</span></div></div><div className="bg-gray-50 p-4 rounded-md border"><h4 className="font-semibold text-gray-700 mb-2">Informe Adjunto:</h4><ReportDisplay report={selectedPiece.report} /></div></div><div className="mt-6 text-right"><button type="button" onClick={() => setIsReportOpen(false)} className="inline-flex justify-center rounded-md border border-transparent bg-indigo-100 px-4 py-2 text-sm font-medium text-indigo-900 hover:bg-indigo-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">Cerrar</button></div></Dialog.Panel></Transition.Child></div></div></Dialog></Transition>)}
+
+            <Transition appear show={isFilterModalOpen} as={Fragment}>
+                <Dialog as="div" className="relative z-50" onClose={() => setIsFilterModalOpen(false)}>
+                    <Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0" enterTo="opacity-100" leave="ease-in duration-200" leaveFrom="opacity-100" leaveTo="opacity-0">
+                        <div className="fixed inset-0 bg-black bg-opacity-30" />
+                    </Transition.Child>
+                    <div className="fixed inset-0 overflow-y-auto">
+                        <div className="flex min-h-full items-center justify-center p-4 text-center">
+                            <Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0 scale-95" enterTo="opacity-100 scale-100" leave="ease-in duration-200" leaveFrom="opacity-100 scale-100" leaveTo="opacity-0 scale-95">
+                                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                                    <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900 mb-4">Filtro Avanzado</Dialog.Title>
+                                    <div className="space-y-4">
+                                        <div>
+                                            <label htmlFor="departmentId" className="block text-sm font-medium text-gray-700">Departamento</label>
+                                            <select name="departmentId" value={filters.departmentId} onChange={handleFilterChange} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                                                <option value="">Todos los departamentos</option>
+                                                {departments.map(dept => (<option key={dept.id} value={dept.id}>{dept.name}</option>))}
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label htmlFor="inStock" className="block text-sm font-medium text-gray-700">Disponibilidad</label>
+                                            <select name="inStock" value={filters.inStock} onChange={handleFilterChange} className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                                                <option value="">Cualquiera</option>
+                                                <option value="yes">En Stock (> 0)</option>
+                                                <option value="no">Sin Stock (0)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className="mt-6 flex justify-end space-x-4">
+                                        <button type="button" onClick={handleClearFilters} className="text-gray-700 hover:underline">Limpiar</button>
+                                        <button type="button" onClick={handleApplyFilters} className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none">Aplicar Filtros</button>
+                                    </div>
+                                </Dialog.Panel>
+                            </Transition.Child>
+                        </div>
+                    </div>
+                </Dialog>
+            </Transition>
         </div>
     );
 };
