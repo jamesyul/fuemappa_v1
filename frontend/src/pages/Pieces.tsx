@@ -59,7 +59,7 @@ const getDepartmentNameFromId = (departmentId: string | undefined): string => {
 const Pieces: React.FC = () => {
     const { user } = useAuthStore();
     // Usamos las nuevas funciones del store
-    const { filteredPieces, fetchPieces, setFilter, applyAdvancedFilters } = usePiecesStore();
+    const { pieces, filteredPieces, fetchPieces, setFilter, applyAdvancedFilters } = usePiecesStore();
     const { departments, fetchDepartments } = useDepartmentsStore(); // Para el select del modal
     const navigate = useNavigate();
     
