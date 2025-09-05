@@ -1,38 +1,57 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+// --- FICHERO: frontend/src/App.tsx (VERSIÓN FINAL Y CORRECTA) ---
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useAuthStore } from './store/auth.store';
+
+// Importa tus componentes de Layout y Rutas
+import Layout from './components/common/Layout';
+import ProtectedRoute from './components/common/ProtectedRoute';
+
+// Importa tus páginas
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import AppSelector from './pages/AppSelector';
 import Pieces from './pages/Pieces';
 import Departments from './pages/Departments';
 import DataAnalyzer from './pages/DataAnalyzer';
-import AppSelector from './pages/AppSelector'; // <-- 1. Importar la nueva página
-import Navbar from './components/common/Navbar';
-import Footer from './components/common/Footer';
-import Contact from './pages/Contact'; 
+import Contact from './pages/Contact';
 
 const App: React.FC = () => {
+  const { checkAuthStatus } = useAuthStore();
+
+  // Al cargar la app, verifica si hay una sesión activa
+  useEffect(() => {
+    checkAuthStatus();
+  }, [checkAuthStatus]);
+
   return (
-    <div className="flex flex-col min-h-screen">
-      <Navbar />
-      <main className="flex-grow">
-        <Routes>
+    <Router>
+      <Routes>
+        {/* --- Rutas con Layout (Navbar y Footer) --- */}
+        <Route element={<Layout />}>
+          {/* Rutas Públicas */}
           <Route path="/" element={<Home />} />
-          <Route path="/select-app" element={<AppSelector />} /> {/* <-- 2. Añadir la nueva ruta */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/pieces" element={<Pieces />} />
-          <Route path="/departments" element={<Departments />} />
-          <Route path="/analyzer" element={<DataAnalyzer />} />
-          <Route path="/contact" element={<Contact />} /> {/* <-- Añadir la nueva ruta */}
-          <Route path="*" element={<h1 className="text-center p-10">404 - Página no encontrada</h1>} />
-        </Routes>
-      </main>
-      <Footer />
-    </div>
+          <Route path="/contact" element={<Contact />} />
+
+          {/* Rutas Protegidas */}
+          <Route element={<ProtectedRoute />}>
+            <Route path="/select-app" element={<AppSelector />} />
+            <Route path="/pieces" element={<Pieces />} />
+            <Route path="/departments" element={<Departments />} />
+            <Route path="/analyzer" element={<DataAnalyzer />} />
+          </Route>
+        </Route>
+
+        {/* --- Rutas sin Layout (ej: Login, que es a pantalla completa) --- */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        
+        {/* --- Ruta para Página no Encontrada --- */}
+        <Route path="*" element={<div><h2>404: Página no encontrada</h2></div>} />
+      </Routes>
+    </Router>
   );
 };
 
 export default App;
-
-
