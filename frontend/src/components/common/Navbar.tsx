@@ -32,6 +32,7 @@ const Navbar: React.FC = () => {
             </Link>
           </div>
 
+          {/* Menú de Navegación */}
           <div className="flex items-center space-x-4">
             {user ? (
               <>

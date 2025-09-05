@@ -1,23 +1,66 @@
-# 🏁 Sistema de Inventario para FUEM Racing (Fuemappa_v1)
+# Centro de Software Formula UEM
 
-Un sistema de gestión de inventario robusto y seguro, diseñado para optimizar las operaciones del equipo de competición FUEM Racing.
+<p align="left">
+  <img src="https://img.shields.io/badge/version-1.0-green">
+  <img src="https://img.shields.io/badge/test-✓-green">
+</p>
 
-[![Estado del Despliegue - Frontend](https://vercel.com/button)](https://fuemappa-frontend.vercel.app)
-[![Estado del Despliegue - Backend](https://vercel.com/button)](https://fuemappa-backend.vercel.app/api)
+El **Centro de Software FUEM** es una plataforma **full-stack y modular** diseñada para cubrir las necesidades del equipo mediante aplicaciones específicas que se integran en un mismo entorno.
 
-**Visita la aplicación en vivo:** **[fuemappa-frontend.vercel.app](https://fuemappa-frontend.vercel.app)**
+Su objetivo es **desarrollar, ampliar e integrar nuevas herramientas progresivamente**, ofreciendo un espacio centralizado y accesible para la gestión de datos, piezas y organización interna.
+
+La filosofía es clara: **una sola plataforma, múltiples soluciones**. Cada aplicación nace para resolver un problema concreto, pero todas conviven de manera unificada para facilitar el trabajo del equipo.
+
+**Accede al centro de aplicacione smediante el siguiente enlace:** **[fuemappa-frontend.vercel.app](https://fuemappa-frontend.vercel.app)**
 
 ---
 
 ### Vista Previa de la Aplicación
 
-![Vista Previa del Dashboard de Inventario](./screenshots/dashboard.png)
+<img width="1904" height="868" alt="Captura de pantalla 2025-08-28 174123" src="https://github.com/user-attachments/assets/d39e63b4-2956-48ac-b5c4-6b864e58f957" />
 
-## 📜 Descripción del Proyecto
+<img width="1899" height="938" alt="Captura de pantalla 2025-08-28 171808" src="https://github.com/user-attachments/assets/98f7fc2d-b76f-4caa-a42b-02f9c045733d" />
 
-**Fuemappa_v1** es una solución full-stack que aborda la necesidad de un control de inventario preciso y accesible para un equipo de motorsport. La plataforma permite a los miembros del equipo gestionar piezas, consultar existencias y analizar datos, todo ello protegido por un sistema de roles y permisos que garantiza que cada usuario solo acceda a la información que le corresponde.
+---
 
-## ✨ Características Principales
+## Aplicaciones actuales
+
+### 📊 Nexus CSV Data Plotter
+Convierte los datos recopilados por la memoria SD de **Nexus** en **gráficas claras y exportables**.  
+Permite **analizar, visualizar y procesar información cruda**, agilizando la interpretación de resultados.
+
+<img width="1898" height="931" alt="Captura de pantalla 2025-08-28 173440" src="https://github.com/user-attachments/assets/5d42efb7-960e-404b-9c38-b1774893d6f0" />
+
+---
+
+### ⚙️ Code Assembler
+Herramienta para **gestionar y rastrear piezas y ensamblajes**.  
+Asegura un **control preciso y detallado** de los sistemas técnicos del equipo, garantizando trazabilidad y organización en el inventario.
+
+<img width="1898" height="935" alt="Captura de pantalla 2025-08-28 172839" src="https://github.com/user-attachments/assets/c8322d99-e577-4783-9e80-25c2f68b4f1e" />
+
+---
+
+### 👥 Department Manager
+Aplicación orientada a la **gestión de departamentos y sus miembros**.  
+Facilita la **organización interna, asignación de responsabilidades y visibilidad del equipo**, optimizando la coordinación entre áreas.  
+
+<img width="1905" height="939" alt="Captura de pantalla 2025-08-28 172909" src="https://github.com/user-attachments/assets/99db89c0-935a-4069-930b-701135e455cf" />
+
+---
+
+## Stack Tecnológico
+
+| Área      | Tecnología                                                                                                                              |
+| :-------- | :-------------------------------------------------------------------------------------------------------------------------------------- |
+| **Frontend**  | `React 19` `TypeScript` `Vite` `Zustand` `React Router` `Tailwind CSS` `Axios`                                                           |
+| **Backend**   | `Node.js` `Express.js` `JWT` `bcryptjs`                                                                                               |
+| **Base de Datos** | `Supabase` (PostgreSQL)                                                                                                                  |
+| **Despliegue**  | `Vercel` (con dos proyectos independientes apuntando a un monorepo)
+
+---
+
+## Características Principales
 
 -   🔐 **Autenticación Segura:** Login y registro con tokens JWT.
 -   👤 **Control de Acceso por Roles (RBAC):** `admin`, `jefe_departamento` e `integrante_departamento` con permisos diferenciados.
@@ -25,37 +68,9 @@ Un sistema de gestión de inventario robusto y seguro, diseñado para optimizar 
 -   🏢 **Gestión de Departamentos:** Creación y administración de los diferentes departamentos del equipo.
 -   📊 **Análisis de Datos:** Procesamiento de archivos `.csv` desde Google Drive para la visualización de datos.
 
-## 💻 Stack Tecnológico
+---
 
-| Área      | Tecnología                                                                                                                              |
-| :-------- | :-------------------------------------------------------------------------------------------------------------------------------------- |
-| **Frontend**  | `React 19` `TypeScript` `Vite` `Zustand` `React Router` `Tailwind CSS` `Axios`                                                           |
-| **Backend**   | `Node.js` `Express.js` `JWT` `bcryptjs`                                                                                               |
-| **Base de Datos** | `Supabase` (PostgreSQL)                                                                                                                  |
-| **Despliegue**  | `Vercel` (con dos proyectos independientes apuntando a un monorepo)                                                                      |
-
-## 🖼️ Galería de Capturas de Pantalla
-
-<table>
-  <tr>
-    <td align="center"><strong>Página de Login</strong></td>
-    <td align="center"><strong>Dashboard Principal</strong></td>
-  </tr>
-  <tr>
-    <td><img src="./screenshots/login.png" alt="Página de Login" width="400"/></td>
-    <td><img src="./screenshots/pieces.png" alt="Dashboard con el inventario de piezas" width="400"/></td>
-  </tr>
-    <tr>
-    <td align="center"><strong>Formulario de Creación</strong></td>
-    <td align="center"><strong>Análisis de Datos</strong></td>
-  </tr>
-  <tr>
-    <td><img src="./screenshots/register.png" alt="Formulario del registro" width="400"/></td>
-    <td><img src="./screenshots/analyzer.png" alt="Página de análisis de datos con gráficos" width="400"/></td>
-  </tr>
-</table>
-
-## 🚀 Cómo Ejecutarlo Localmente
+## Cómo Ejecutarlo Localmente
 
 1.  **Clonar el repositorio:**
     ```bash
@@ -75,7 +90,9 @@ Un sistema de gestión de inventario robusto y seguro, diseñado para optimizar 
     npm run dev
     ```
 
-## ☁️ Arquitectura de Despliegue
+---
+
+## Arquitectura de Despliegue
 
 Este proyecto está desplegado en Vercel utilizando una estrategia de **dos proyectos independientes que apuntan al mismo monorepo**, garantizando el aislamiento y la escalabilidad de cada parte:
 
@@ -85,3 +102,9 @@ Este proyecto está desplegado en Vercel utilizando una estrategia de **dos proy
 Esta arquitectura permite que ambos servicios se desarrollen en un único repositorio pero se desplieguen y escalen de forma independiente.
 
 ---
+
+## Visión a futuro
+Este centro de software está pensado como un ecosistema en constante crecimiento:  
+- 🔧 **Nuevas herramientas** se irán añadiendo de forma progresiva.  
+- 🔐 **Seguridad con roles y permisos**, para que cada usuario acceda solo a la información que le corresponde.  
+- 📈 **Escalabilidad**, asegurando que la plataforma evolucione junto a las necesidades del equipo.  
