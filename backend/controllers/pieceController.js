@@ -29,23 +29,39 @@ export const pieceController = {
     }
   },
 
-  // --- FUNCIÓN DE CREAR CORREGIDA ---
   createPiece: async (req, res) => {
     try {
       const dataToInsert = { ...req.body };
       
       // REGLA DE NEGOCIO: Si el usuario es un jefe, FORZAMOS
-      // que la pieza se cree en su propio departamento, ignorando lo que envíe el frontend.
+      // que la pieza se cree en su propio departamento.
       if (req.user.role === 'jefe_departamento') {
+        // Si el jefe no tiene un departmentId en su token, es un error
+        if (!req.user.departmentId) {
+          return res.status(403).json({ message: 'Acción prohibida: Tu usuario no está asociado a ningún departamento.' });
+        }
         dataToInsert.departmentId = req.user.departmentId;
       }
-      // Un admin puede crear piezas para cualquier departamento, así que confiamos en el `departmentId` que envía.
+
+      // --- ¡VALIDACIÓN CLAVE AÑADIDA! ---
+      // Nos aseguramos de que SIEMPRE haya un departmentId antes de insertar.
+      // Esto es crucial para los admins, que deben seleccionarlo en el frontend.
+      if (!dataToInsert.departmentId) {
+        return res.status(400).json({ message: 'Error de validación: Se debe especificar un departamento para la pieza.' });
+      }
+      // ------------------------------------
 
       const newPiece = await pieceModel.create(dataToInsert);
       res.status(201).json(newPiece);
     } catch (error) {
-      console.error("CREATE PIECE ERROR:", error.message); // Log para depuración
-      res.status(500).json({ message: 'Error creating piece', details: error.message });
+      console.error("CREATE PIECE ERROR:", error);
+      
+      // Si el error sigue siendo de clave foránea, damos un mensaje más amigable
+      if (error.message.includes('foreign key constraint')) {
+          return res.status(400).json({ message: 'El departamento seleccionado no es válido.' });
+      }
+      
+      res.status(500).json({ message: 'Error creando la pieza', details: error.message });
     }
   },
 
@@ -93,3 +109,36 @@ export const pieceController = {
     }
   },
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
