@@ -4,18 +4,18 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useAuthStore } from '@/store/auth.store';
 
 // Importa tus componentes de Layout y Rutas
-import Layout from '@/components/common/Layout';
-import ProtectedRoute from '@/components/common/ProtectedRoute';
+import Layout from '@/components/common/Layout.tsx';
+import ProtectedRoute from '@/components/common/ProtectedRoute.tsx';
 
 // Importa tus páginas
-import Home from '@/pages/Home';
-import Login from '@/pages/Login';
-import Signup from '@/pages/Signup';
-import AppSelector from '@/pages/AppSelector';
-import Pieces from '@/pages/Pieces';
-import Departments from '@/pages/Departments';
-import DataAnalyzer from '@/pages/DataAnalyzer';
-import Contact from '@/pages/Contact';
+import Home from '@/pages/Home.tsx';
+import Login from '@/pages/Login.tsx';
+import Signup from '@/pages/Signup.tsx';
+import AppSelector from '@/pages/AppSelector.tsx';
+import Pieces from '@/pages/Pieces.tsx';
+import Departments from '@/pages/Departments.tsx';
+import DataAnalyzer from '@/pages/DataAnalyzer.tsx';
+import Contact from '@/pages/Contact.tsx';
 
 const App: React.FC = () => {
   const { checkAuthStatus } = useAuthStore();
@@ -55,3 +55,58 @@ const App: React.FC = () => {
 };
 
 export default App;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
