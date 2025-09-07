@@ -1,21 +1,21 @@
-// --- FICHERO: frontend/src/App.tsx (VERSIÓN FINAL Y CORRECTA) ---
+// --- FICHERO: frontend/src/App.tsx (IMPORTACIONES FINALES Y CORRECTAS) ---
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { useAuthStore } from '@/store/auth.store';
+import { useAuthStore } from './store/auth.store'; // './' significa "desde la misma carpeta (src)"
 
-// Importa tus componentes de Layout y Rutas
-import Layout from '@/components/common/Layout.tsx';
-import ProtectedRoute from '@/components/common/ProtectedRoute.tsx';
+// Importa componentes desde su ruta relativa
+import Layout from './components/common/Layout'; 
+import ProtectedRoute from './components/common/ProtectedRoute';
 
-// Importa tus páginas
-import Home from '@/pages/Home.tsx';
-import Login from '@/pages/Login.tsx';
-import Signup from '@/pages/Signup.tsx';
-import AppSelector from '@/pages/AppSelector.tsx';
-import Pieces from '@/pages/Pieces.tsx';
-import Departments from '@/pages/Departments.tsx';
-import DataAnalyzer from '@/pages/DataAnalyzer.tsx';
-import Contact from '@/pages/Contact.tsx';
+// Importa páginas desde su ruta relativa
+import Home from './pages/Home';
+import Login from './pages-Login';
+import Signup from './pages/Signup';
+import AppSelector from './pages/AppSelector';
+import Pieces from './pages/Pieces';
+import Departments from './pages/Departments';
+import DataAnalyzer from './pages/DataAnalyzer';
+import Contact from './pages/Contact';
 
 const App: React.FC = () => {
   const { checkAuthStatus } = useAuthStore();
@@ -55,12 +55,6 @@ const App: React.FC = () => {
 };
 
 export default App;
-
-
-
-
-
-
 
 
 
