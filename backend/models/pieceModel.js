@@ -4,9 +4,27 @@ import { supabase } from '../config/supabase.js';
 export const pieceModel = {
   // OBTENER TODAS las piezas
   getAll: async () => {
-    const { data, error } = await supabase.from('pieces').select('*');
+    // ANTES: const { data, error } = await supabase.from('pieces').select('*');
+    // AHORA, hacemos un "join" para obtener el nombre del departamento:
+    const { data, error } = await supabase
+      .from('pieces')
+      .select(`
+        *,
+        departments (
+          name
+        )
+      `);
+
     if (error) throw new Error(error.message);
-    return data;
+
+    // Supabase devuelve el departamento como un objeto anidado.
+    // Vamos a "aplanarlo" para que sea más fácil de usar en el frontend.
+    const formattedData = data.map(piece => ({
+      ...piece,
+      departmentName: piece.departments ? piece.departments.name : 'Sin departamento'
+    }));
+
+    return formattedData;
   },
 
   // OBTENER UNA pieza por su ID
