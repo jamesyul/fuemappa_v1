@@ -18,30 +18,15 @@ const Login: React.FC = () => {
   // --- FUNCIÓN onSubmit CON LA LÓGICA DE REDIRECCIÓN INTELIGENTE ---
   const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
     try {
-      setApiError(null); // Limpiamos errores previos
-      const response = await loginUser(data); // Llamamos a nuestro servicio
-      loginToStore(response.user, response.token); // Guardamos el usuario y el token
-
-      // --- LÓGICA DE REDIRECCIÓN ---
-      // Después de un login exitoso, siempre redirigimos al selector de aplicaciones.
+      setApiError(null);
+      const response = await loginUser(data);
+      loginToStore(response.user, response.token);
+    
+      // SIEMPRE redirige a /select-app
       navigate('/select-app', { replace: true });
-      // -----------------------------------------
-
-      // --- LÓGICA DE REDIRECCIÓN INTELIGENTE ---
-      /*const hasSeenSelector = localStorage.getItem('hasSeenAppSelector');
-      if (!hasSeenSelector) {
-        // Si es la primera vez, lo marcamos como visto y lo enviamos al selector
-        localStorage.setItem('hasSeenAppSelector', 'true');
-        navigate('/select-app');
-      } else {
-        // Si no, lo enviamos directamente a las piezas
-        navigate('/pieces');
-      }*/
-      // -----------------------------------------
 
     } catch (error: any) {
-      // Si la API devuelve un error (ej: 401 Unauthorized), lo mostramos
-      const message = error.response?.data?.message || 'Error al iniciar sesión. Inténtalo de nuevo.';
+      const message = error.response?.data?.message || 'Error al iniciar sesión.';
       setApiError(message);
     }
   };
@@ -106,3 +91,50 @@ const Login: React.FC = () => {
 };
 
 export default Login;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,6 +1,6 @@
 // --- FICHERO: src/components/common/Navbar.tsx ---
 import React from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom'; // Asegúrate de importar useLocation
 import { useAuthStore } from '../../store/auth.store';
 import SearchBar from './SearchBar';
 import { FaUserCircle } from 'react-icons/fa';
@@ -36,7 +36,6 @@ const Navbar: React.FC = () => {
           <div className="flex items-center space-x-4">
             {user ? (
               <>
-                {/* Oculta los enlaces principales si estamos en el AppSelector */}
                 {!isAppSelectorPage && (
                   <>
                     <Link to="/pieces" className="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
@@ -88,3 +87,32 @@ const Navbar: React.FC = () => {
 };
 
 export default Navbar;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
