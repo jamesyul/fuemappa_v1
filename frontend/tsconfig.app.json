@@ -1,3 +1,4 @@
+// --- FICHERO: frontend/tsconfig.app.json (VERSIÓN CORREGIDA) ---
 {
   "compilerOptions": {
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
@@ -14,6 +15,13 @@
     "moduleDetection": "force",
     "noEmit": true,
     "jsx": "react-jsx",
+
+    /* --- AÑADE ESTAS DOS LÍNEAS --- */
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    /* ------------------------------ */
 
     /* Linting */
     "strict": true,

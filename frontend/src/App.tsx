@@ -1,21 +1,21 @@
 // --- FICHERO: frontend/src/App.tsx (VERSIÓN FINAL Y CORRECTA) ---
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { useAuthStore } from './store/auth.store';
+import { useAuthStore } from '@/store/auth.store';
 
 // Importa tus componentes de Layout y Rutas
-import Layout from './components/common/Layout';
-import ProtectedRoute from './components/common/ProtectedRoute';
+import Layout from '@/components/common/Layout';
+import ProtectedRoute from '@/components/common/ProtectedRoute';
 
 // Importa tus páginas
-import Home from './pages/Home';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
-import AppSelector from './pages/AppSelector';
-import Pieces from './pages/Pieces';
-import Departments from './pages/Departments';
-import DataAnalyzer from './pages/DataAnalyzer';
-import Contact from './pages/Contact';
+import Home from '@/pages/Home';
+import Login from '@/pages/Login';
+import Signup from '@/pages/Signup';
+import AppSelector from '@/pages/AppSelector';
+import Pieces from '@/pages/Pieces';
+import Departments from '@/pages/Departments';
+import DataAnalyzer from '@/pages/DataAnalyzer';
+import Contact from '@/pages/Contact';
 
 const App: React.FC = () => {
   const { checkAuthStatus } = useAuthStore();

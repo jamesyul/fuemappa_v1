@@ -1,26 +1,35 @@
+// --- FICHERO: frontend/vite.config.ts (VERSIÓN CORREGIDA) ---
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import tailwindcss from '@tailwindcss/vite';
+import path from 'path'; // <-- 1. IMPORTA EL MÓDULO 'path'
 
 export default defineConfig({
-  base: '/', // Rutas correctas en producción
+  base: '/',
   plugins: [
     react(),
     tailwindcss(),
   ],
+  // --- 2. AÑADE ESTE BLOQUE 'resolve' ---
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
+  // ------------------------------------
   server: {
-    port: 5173, // Puerto del frontend en desarrollo
+    port: 5173,
     proxy: {
       '/api': {
-        target: 'http://localhost:5000', // Puerto donde corre tu backend
+        target: 'http://localhost:5000',
         changeOrigin: true,
         secure: false,
-        rewrite: (path) => path.replace(/^\/api/, '') // Opcional: reescribe la ruta si es necesario
+        rewrite: (path) => path.replace(/^\/api/, '')
       }
     }
   },
   build: {
-    outDir: 'dist', // Directorio de salida (por defecto, pero es bueno ser explícito)
-    sourcemap: false, // Desactivar sourcemaps en producción para reducir tamaño
+    outDir: 'dist',
+    sourcemap: false,
   }
 });
